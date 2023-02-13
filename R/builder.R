@@ -20,9 +20,11 @@ upload_zip_file <- function(repo_name,
     fs::dir_delete(tmp_dir)
   })
 
+  dir <- normalizePath(dir)
+
   fs::dir_create(tmp_dir)
   fs::dir_copy(
-    normalizePath(dir),
+    dir,
     tmp_dir
   )
 
@@ -30,10 +32,10 @@ upload_zip_file <- function(repo_name,
     system.file("buildspec.template.yml", package = "smdocker")
   )
   buildspec_replaced <- gsub("REPLACE_ME_BUILD_ARGS", extra_args, buildspec_replaced)
-  writeLines(buildspec_replaced, file.path(tmp_dir, "buildspec.yml"))
+  writeLines(buildspec_replaced, file.path(tmp_dir, basename(dir), "buildspec.yml"))
   archive::archive_write_dir(
     archive = tmp,
-    dir = normalizePath(dir),
+    dir = file.path(tmp_dir, basename(dir)),
     format = "tar",
     filter = "gzip",
     recursive = TRUE
