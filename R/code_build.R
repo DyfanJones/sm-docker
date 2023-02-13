@@ -157,7 +157,7 @@ build <- function(metadata, log = TRUE) {
   self <- paws_session()
   client <- paws::codebuild(self$config)
 
-  response <- client$start_build(projectName = metadata$project_names)
+  response <- client$start_build(projectName = metadata$project_name)
   return(response[["build"]][["id"]])
 }
 
