@@ -33,6 +33,8 @@ sm_build <- function(repository,
                      ...) {
   extra_args <- list(...)
 
+  compute_type <- match.arg(compute_type)
+
   # Validate that the path to the Dockerfile is within the PWD.
   if (any(names(extra_args) %in% c("f", "file"))) {
     file_path <- extra_args[["file"]] %||% extra_args[["f"]]
