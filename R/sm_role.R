@@ -1,0 +1,125 @@
+#' @importFrom jsonlite read_json
+
+NOTEBOOK_METADATA_FILE <- "/opt/ml/metadata/resource-metadata.json"
+
+get_role <- function(role = NULL) {
+  if (!is.null(role)) {
+    return(role)
+  }
+
+  role <- sagemaker_get_execution_role()
+  role_prt <- strsplit(role, ":")[[1]]
+  role <- strsplit(role_prt[length(role_prt)], "/")[[1]]
+  return(paste(role[2:length(role)], collapse = "/"))
+}
+
+################################################################################
+# Developed from:
+# https://github.com/aws/sagemaker-python-sdk/blob/master/src/sagemaker/session.py#L5396-L5417
+# See the NOTICE file at the top of this package for attribution.
+################################################################################
+
+#' @title Return the role ARN whose credentials are used to call the API.
+#' @return (str): The role ARN
+#' @export
+sagemaker_get_execution_role <- function() {
+  arn <- sagemaker_get_caller_identity_arn()
+  if (grepl(":role/", arn)) {
+    return(arn)
+  }
+  message <- sprintf(
+    paste(
+      "The current AWS identity is not a role: %s, therefore it cannot",
+      "be used as a SageMaker execution role"
+    ),
+    arn
+  )
+  stop(message, call. = F)
+}
+
+################################################################################
+# Developed from:
+# https://github.com/aws/sagemaker-python-sdk/blob/master/src/sagemaker/session.py#L3977-L4056
+# See the NOTICE file at the top of this package for attribution.
+################################################################################
+
+sagemaker_get_caller_identity_arn <- function() {
+  self <- paws_session()
+  client <- paws::sagemaker(self$config)
+
+  if (file.exists(NOTEBOOK_METADATA_FILE)) {
+    metadata <- read_json(NOTEBOOK_METADATA_FILE)
+    instance_name <- metadata[["ResourceName"]]
+    domain_id <- metadata[["DomainId"]]
+    user_profile_name <- metadata[["UserProfileName"]]
+
+    tryCatch(
+      {
+        if (is.null(domain_id)) {
+          instance_desc <- client$describe_notebook_instance(NotebookInstanceName = instance_name)
+          return(instance_desc$RoleArn)
+        }
+        user_profile_desc <- client$describe_user_profile(
+          DomainId = domain_id, UserProfileName = user_profile_name
+        )
+
+        # First, try to find role in userSettings
+        if (!is.null(user_profile_desc[["UserSettings"]][["ExecutionRole"]])) {
+          return(user_profile_desc[["UserSettings"]][["ExecutionRole"]])
+        }
+
+        # If not found, fallback to the domain
+        domain_desc <- client$describe_domain(DomainId = domain_id)
+        return(domain_desc[["DefaultUserSettings"]][["ExecutionRole"]])
+      },
+      error = function(e) {
+        log_debug(
+          "Couldn't call 'describe_notebook_instance' to get the Role \nARN of the instance %s.",
+          instance_name
+        )
+      }
+    )
+  }
+
+  assumed_role <- paws::sts(
+    modifyList(self$config, list(
+      region = self$config$region,
+      endpoint = sts_regional_endpoint(self$config$region)
+    ))
+  )$get_caller_identity()[["Arn"]]
+
+  role <- gsub("^(.+)sts::(\\d+):assumed-role/(.+?)/.*$", "\\1iam::\\2:role/\\3", assumed_role)
+
+  # Call IAM to get the role's path
+  role_name <- substr(role, gregexpr("/", role)[[1]][1] + 1, nchar(role))
+  tryCatch(
+    {
+      role <- paws::iam(self$config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
+    },
+    error = function(e) {
+      log_warn(
+        "Couldn't call 'get_role' to get Role ARN from role name %s to get Role path.",
+        role_name
+      )
+      # This conditional has been present since the inception of SageMaker
+      # Guessing this conditional's purpose was to handle lack of IAM permissions
+      # https://github.com/aws/sagemaker-python-sdk/issues/2089#issuecomment-791802713
+      if (grepl("AmazonSageMaker-ExecutionRole", assumed_role)) {
+        log_warn(paste(
+          "Assuming role was created in SageMaker AWS console,",
+          "as the name contains `AmazonSageMaker-ExecutionRole`.",
+          "Defaulting to Role ARN with service-role in path.",
+          "If this Role ARN is incorrect, please add",
+          "IAM read permissions to your role or supply the",
+          "Role Arn directly."
+        ))
+        role <- gsub(
+          "^(.+)sts::(\\d+):assumed-role/(.+?)/.*$",
+          "\\1iam::\\2:role/service-role/\\3",
+          assumed_role
+        )
+      }
+    }
+  )
+  return(role)
+}

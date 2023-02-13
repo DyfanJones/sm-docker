@@ -1,0 +1,29 @@
+Package: smdocker
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    jsonlite,
+    paws,
+    fs,
+    archive,
+    utils
+Suggests:
+    crayon,
+    testthat
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Collate: 
+    'builder.R'
+    'utils.R'
+    'client.R'
+    'logs.R'
+    'code_build.R'
+    'logging.R'
+    'sm_role.R'
+    'main.R'
