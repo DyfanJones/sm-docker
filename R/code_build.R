@@ -12,7 +12,7 @@ code_build_project_init <- function(s3_location,
   self <- paws_session()
   metadata <- .get_studio_metadata()
   metadata$s3_location <- s3_location
-  metadata$s3_location <- role
+  metadata$role <- role
   metadata$repo_name <- NULL
   metadata$compute_type <- compute_type %||% "BUILD_GENERAL1_SMALL"
   metadata$vpc_config <- vpc_config
