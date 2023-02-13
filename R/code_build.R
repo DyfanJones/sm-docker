@@ -106,7 +106,7 @@ code_build_project_init <- function(s3_location,
         list("name" = "IMAGE_REPO_NAME", "value" = metadata$repo_name),
         list("name" = "IMAGE_TAG", "value" = metadata$tag)
       ),
-      "privilegedMode" = TRUE,
+      "privilegedMode" = TRUE
     ),
     "serviceRole" = sprintf(
       "arn:%s:iam::%s:role/%s", partition, account, metadata$role
