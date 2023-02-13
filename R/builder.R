@@ -113,7 +113,7 @@ build_image <- function(repository,
                         extra_args,
                         log = TRUE) {
   s3 <- upload_zip_file(
-    repository, bucket, paste(extra_args, collapse = " "), dir
+    repository, bucket, paste(names(extra_args), extra_args, collapse = " "), dir
   )
 
   on.exit(delete_zip_file(s3$Bucket, s3$Key))
