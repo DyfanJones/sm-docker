@@ -63,7 +63,7 @@ sm_build <- function(repository,
 construct_vpc_config <- function(vpc_id = NULL,
                                  subnet_ids = list(),
                                  security_group_ids = list()) {
-  if (is.null(vpc_ids)) {
+  if (is.null(vpc_id)) {
     return(NULL)
   } else {
     if (length(subnet_ids) == 0 | length(security_group_ids)) {
@@ -76,7 +76,7 @@ construct_vpc_config <- function(vpc_id = NULL,
     }
     vpc_config <- list(
       "vpcId" = vpc_id,
-      "subnets" = subnet_id,
+      "subnets" = subnet_ids,
       "securityGroupIds" = security_group_ids
     )
   }
