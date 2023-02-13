@@ -115,7 +115,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     if (state == LogState$COMPLETE) {
       break
     }
-    Sys.time(poll)
+    Sys.sleep(poll)
     if (dot) {
       writeLines(".", sep = "")
       flush(stdout())
