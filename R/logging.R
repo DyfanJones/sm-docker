@@ -40,7 +40,7 @@
 #' # reset to default config
 #' sm_docker_config_log()
 #' @export
-sm_docker_config_log <- function(level = 2L,
+sm_docker_config_log <- function(level = 3L,
                                  file = "",
                                  timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
