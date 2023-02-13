@@ -32,7 +32,7 @@ upload_zip_file <- function(repo_name,
   buildspec_replaced <- gsub("REPLACE_ME_BUILD_ARGS", extra_args, buildspec_replaced)
   writeLines(buildspec_replaced, file.path(tmp_dir, "buildspec.yml"))
   archive::archive_write_dir(
-    archive = temp_file,
+    archive = tmp,
     dir = normalizePath(dir),
     format = "tar",
     filter = "gzip",
