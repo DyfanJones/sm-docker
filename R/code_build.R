@@ -117,6 +117,7 @@ code_build_project_init <- function(s3_location,
     args[["vpcConfig"]] <- metadata$vpc_config
   }
 
+  log_params("create project", args)
   do.call(client$create_project, args)
   return(invisible(NULL))
 }

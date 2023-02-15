@@ -50,6 +50,7 @@ log_stream <- function(client,
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   self <- paws_session()
   codebuild <- paws::codebuild(self$config)
+  log_params("batch_get_builds", list(ids = list(build_id)))
   description <- codebuild$batch_get_builds(
     ids = list(build_id)
   )[["builds"]][[1]]
@@ -85,7 +86,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     ###### add loop
     events <- lapply(stream_name, function(s) {
       log_stream(
-        cloudwatchlogs,
+        client,
         log_group,
         s,
         log_env$positions[[s]]$timestamp,

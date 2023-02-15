@@ -6,6 +6,7 @@
 # Levels: 4 = DEBUG, 3 = INFO/MSG, 2 = WARNING, 1 = ERROR
 
 #' @importFrom utils modifyList
+#' @importFrom josnlite toJSON
 
 #' @title sm_docker logging system
 #' @description Ability to configure sm_docker logging system, through the use of sm_docker
@@ -105,6 +106,10 @@ log_msg <- function(lvl, msg) {
     file = log_file,
     append = TRUE
   )
+}
+
+log_params <- function(msg, params) {
+  log_debug("%s: %s", msg, toJSON(params, pretty = T, auto_unbox = T))
 }
 
 log_color <- function(lvl) {
