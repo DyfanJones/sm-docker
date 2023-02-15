@@ -14,7 +14,7 @@ upload_zip_file <- function(repo_name,
   key <- sprintf("codebuild-sagemaker-container-%s.zip", random_suffix)
 
   tmp_dir <- tempfile()
-  tmp <- tempfile(fileext = ".tar.gz")
+  tmp <- tempfile(fileext = ".zip")
   on.exit({
     fs::file_delete(tmp)
     fs::dir_delete(tmp_dir)
@@ -33,12 +33,13 @@ upload_zip_file <- function(repo_name,
   )
   buildspec_replaced <- gsub("REPLACE_ME_BUILD_ARGS", extra_args, buildspec_replaced)
   writeLines(buildspec_replaced, file.path(tmp_dir, basename(dir), "buildspec.yml"))
-  archive::archive_write_dir(
-    archive = tmp,
-    dir = file.path(tmp_dir, basename(dir)),
-    format = "tar",
-    filter = "gzip",
-    recursive = TRUE
+
+  zip(
+    zipfile = tmp,
+    files = list.files(
+      file.path(tmp_dir, basename(dir)),
+      recursive = T
+    )
   )
 
   client <- paws::s3(self$config)
