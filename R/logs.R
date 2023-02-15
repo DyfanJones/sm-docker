@@ -76,7 +76,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     Sys.sleep(poll)
     description <- codebuild$batch_get_builds(
       ids = list(build_id)
-    )$builds[[1]]
+    )[["builds"]][[1]]
     log_group <- description$logs$groupName
     stream_name <- description$logs$streamName
   }
