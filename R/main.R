@@ -63,7 +63,7 @@ sm_build <- function(repository = NULL,
 
   if (!is.null(repository)) {
     repo_len <- lengths(regmatches(repository, gregexpr(":", repository)))
-    if (repo_len == 1) {
+    if (repo_len != 1) {
       stop(sprintf(
         "%s is not a valid repository:tag", repository
       ), call. = F)
