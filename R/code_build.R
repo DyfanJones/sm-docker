@@ -79,7 +79,7 @@ code_build_project_init <- function(s3_location,
   ))
 }
 
-.creat_project <- function(metadata) {
+.create_project <- function(metadata) {
   self <- paws_session()
   client <- paws::codebuild(self$config)
   region <- self$config$region

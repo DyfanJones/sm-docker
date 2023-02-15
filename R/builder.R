@@ -128,9 +128,11 @@ build_image <- function(repository,
   metadata <- code_build_project_init(
     sprintf("%s/%s", s3$Bucket, s3$Key), role,
     repository = repository,
-    compute_type = compute_type, vpc_config = vpc_config
+    compute_type = compute_type,
+    vpc_config = vpc_config
   )
-  .creat_project(metadata)
+  log_params("create_project", meatadata)
+  .create_project(metadata)
   build(metadata, log)
   return(invisible())
 }
