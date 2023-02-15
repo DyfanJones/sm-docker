@@ -1,3 +1,5 @@
+#' @importFrom zip zip
+
 upload_zip_file <- function(repo_name,
                             bucket = NULL,
                             extra_args = list(),
@@ -39,12 +41,9 @@ upload_zip_file <- function(repo_name,
   buildspec_replaced <- gsub("REPLACE_ME_BUILD_ARGS", extra_args, buildspec_replaced)
   writeLines(buildspec_replaced, file.path(tmp_dir, basename(dir), "buildspec.yml"))
 
-  zip(
+  zip::zip(
     zipfile = tmp,
-    files = list.files(
-      file.path(tmp_dir, basename(dir)),
-      recursive = T
-    )
+    files = list.files(recursive = T)
   )
 
   client <- paws::s3(self$config)
