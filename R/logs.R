@@ -80,6 +80,9 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     stream_name <- description$logs$streamName
   }
 
+  print(log_group)
+  print(stream_name)
+
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
   }
@@ -97,13 +100,13 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         log_env$positions[[s]]$skip
       )
     })
+    print(events)
 
     for (e in seq_along(events)) {
       msg <- vapply(
         events[[e]], function(l) trimws(l$message, which = "right"),
         FUN.VALUE = character(1)
       )
-      print(msg)
       # break if nothing exists in list
       if (islistempty(msg)) break
       writeLines(msg)
