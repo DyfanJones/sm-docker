@@ -42,7 +42,10 @@ the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).}
 
 \item{log}{Show the logs of the running CodeBuild build}
 
-\item{...}{docker build extra parameters}
+\item{...}{docker build parameters
+\url{https://docs.docker.com/engine/reference/commandline/build/#options}
+(NOTE: use "_" instead of "-" for example: docker optional parameter
+\code{build-arg} becomes \code{build_arg})}
 }
 \description{
 AWS CodeBuild and pushing to Amazon ECR

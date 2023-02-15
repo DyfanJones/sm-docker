@@ -16,7 +16,10 @@
 #' @param security_group_ids The comma-separated list of security group ids for
 #' the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).
 #' @param log Show the logs of the running CodeBuild build
-#' @param ... docker build extra parameters
+#' @param ... docker build parameters
+#' <https://docs.docker.com/engine/reference/commandline/build/#options>
+#' (NOTE: use "_" instead of "-" for example: docker optional parameter
+#' \code{build-arg} becomes \code{build_arg})
 #' @export
 sm_build <- function(repository,
                      compute_type = c(
@@ -45,7 +48,16 @@ sm_build <- function(repository,
       ))
     }
   }
-  names(extra_args) <- paste0("-", names(extra_args))
+
+  # format docker parameters
+  names(extra_args) <- ifelse(
+    nchar(extra_args) == 1, paste0("-", names(extra_args)),
+    paste0("--", names(extra_args))
+  )
+  names(extra_args) <- gsub("_", "-", names(extra_args))
+  extra_args <- lapply(extra_args,
+    function(arg) if(is.logical(arg)) tolower(arg) else arg
+  )
 
   if (lengths(regmatches(repository, gregexpr(":", repository))) > 1) {
     stop(sprintf(
