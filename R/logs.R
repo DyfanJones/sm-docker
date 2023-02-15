@@ -88,7 +88,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   dot_printed <- FALSE
 
   while (TRUE) {
-    ###### add loop
     events <- lapply(stream_name, function(s) {
       log_stream(
         client,
@@ -104,6 +103,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         events[[e]], function(l) trimws(l$message, which = "right"),
         FUN.VALUE = character(1)
       )
+      print(msg)
       # break if nothing exists in list
       if (islistempty(msg)) break
       writeLines(msg)
