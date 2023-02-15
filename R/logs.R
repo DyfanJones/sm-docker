@@ -54,10 +54,10 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   description <- codebuild$batch_get_builds(
     ids = list(build_id)
   )[["builds"]][[1]]
-  status <- description["buildStatus"]
+  status <- description[["buildStatus"]]
+
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
-
   positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
   names(positions) <- stream_name
   log_env$positions <- positions
@@ -65,6 +65,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   client <- paws::cloudwatchlogs(self$config)
 
   job_already_completed <- if (status == "IN_PROGRESS") FALSE else TRUE
+
   state <- (
     if (wait & !job_already_completed) LogState$STARTING else LogState$COMPLETE
   )
@@ -78,7 +79,11 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     log_group <- description$logs$groupName
     stream_name <- description$logs$streamName
   }
-  if (state == LogState$STARTING) state <- LogState$TAILING
+
+  if (state == LogState$STARTING) {
+    state <- LogState$TAILING
+  }
+
   last_describe_job_call <- Sys.time()
   dot_printed <- FALSE
 
