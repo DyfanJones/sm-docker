@@ -5,7 +5,7 @@
 \title{sm_docker logging system}
 \usage{
 sm_docker_config_log(
-  level = 2L,
+  level = 3L,
   file = "",
   timestamp_fmt = "\%Y-\%m-\%d \%H:\%M:\%OS3"
 )

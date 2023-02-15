@@ -27,3 +27,4 @@ Collate:
     'logging.R'
     'sm_role.R'
     'main.R'
+    'zzz.R'
