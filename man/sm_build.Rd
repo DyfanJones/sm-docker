@@ -5,7 +5,7 @@
 \title{AWS CodeBuild and pushing to Amazon ECR}
 \usage{
 sm_build(
-  repository,
+  repository = NULL,
   compute_type = c("BUILD_GENERAL1_SMALL", "BUILD_GENERAL1_MEDIUM",
     "BUILD_GENERAL1_LARGE", "BUILD_GENERAL1_2XLARGE"),
   role = NULL,

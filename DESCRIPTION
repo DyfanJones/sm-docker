@@ -19,11 +19,11 @@ Suggests:
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Collate: 
-    'builder.R'
-    'utils.R'
-    'client.R'
     'logs.R'
+    'utils.R'
     'code_build.R'
+    'builder.R'
+    'client.R'
     'logging.R'
     'sm_role.R'
     'main.R'

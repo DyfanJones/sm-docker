@@ -3,12 +3,12 @@
 
 #' @importFrom jsonlite read_json
 
-code_build_project_init <- function(s3_location,
-                                    role,
-                                    repository = NULL,
-                                    compute_type = NULL,
-                                    vpc_config = NULL) {
-  self <- paws_session()
+codebuild_project_init <- function(s3_location,
+                                   role,
+                                   repository = NULL,
+                                   compute_type = NULL,
+                                   vpc_config = NULL) {
+  self <- paws_config()
   metadata <- .get_studio_metadata()
   metadata$s3_location <- s3_location
   metadata$role <- role
@@ -78,8 +78,8 @@ code_build_project_init <- function(s3_location,
   ))
 }
 
-.create_project <- function(metadata) {
-  self <- paws_session()
+codebuild_create_project <- function(metadata) {
+  self <- paws_config()
   client <- paws::codebuild(self$config)
   region <- self$config$region
 
@@ -121,22 +121,8 @@ code_build_project_init <- function(s3_location,
   return(invisible(NULL))
 }
 
-build <- function(metadata, log = TRUE) {
-  .create_repo_if_required(metadata)
-  id <- .start_build(metadata)
-  if (log) {
-    logs_for_build(id, wait = TRUE)
-  } else {
-    .wait_for_build(id)
-  }
-  image_uri <- .get_image_uri(metadata)
-  if (!is.null(image_uri)) {
-    log_info("Image URI: %s", image_uri)
-  }
-}
-
 .create_repo_if_required <- function(metadata) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::ecr(self$config)
   tryCatch(
     {
@@ -154,7 +140,7 @@ build <- function(metadata, log = TRUE) {
 }
 
 .start_build <- function(metadata) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::codebuild(self$config)
 
   response <- client$start_build(projectName = metadata$project_name)
@@ -162,7 +148,7 @@ build <- function(metadata, log = TRUE) {
 }
 
 .wait_for_build <- function(build_id, poll_seconds = 10) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::codebuild(self$config)
   status <- client$batch_get_builds(ids = list(build_id))
   while (status$builds[[1]]$buildStatus == "IN_PROGRESS") {
@@ -177,7 +163,7 @@ build <- function(metadata, log = TRUE) {
 }
 
 .get_image_uri <- function(metadata) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::ecr(self$config)
   tryCatch(
     {
@@ -190,4 +176,19 @@ build <- function(metadata, log = TRUE) {
       log_info("Unable to get Image URI. Error: %s", err$message)
     }
   )
+}
+
+
+codebuild_build <- function(metadata, log = TRUE) {
+  .create_repo_if_required(metadata)
+  id <- .start_build(metadata)
+  if (log) {
+    logs_for_build(id, wait = TRUE)
+  } else {
+    .wait_for_build(id)
+  }
+  image_uri <- .get_image_uri(metadata)
+  if (!is.null(image_uri)) {
+    log_info("Image URI: %s", image_uri)
+  }
 }

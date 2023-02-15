@@ -1,3 +1,5 @@
+#' @import paws
+
 log_env <- new.env(parent = emptyenv())
 
 LogState <- list(
@@ -48,9 +50,8 @@ log_stream <- function(client,
 }
 
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
-  self <- paws_session()
+  self <- paws_config()
   codebuild <- paws::codebuild(self$config)
-  log_params("batch_get_builds", list(ids = list(build_id)))
   description <- codebuild$batch_get_builds(
     ids = list(build_id)
   )[["builds"]][[1]]
@@ -100,7 +101,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
     for (e in seq_along(events)) {
       msg <- vapply(
-        events[[e]], function(l) trimws(l$message, which = "right"),
+        events[[e]], function(l) trimws(gsub("<U\\+2500>", "─", l$message), which = "right"),
         FUN.VALUE = character(1)
       )
       # break if nothing exists in list

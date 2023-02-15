@@ -2,16 +2,42 @@ sm_docker_cache <- new.env(parent = emptyenv())
 
 #' @include utils.R
 
-paws_session <- function(aws_access_key_id = NULL,
-                         aws_secret_access_key = NULL,
-                         aws_session_token = NULL,
-                         region_name = NULL,
-                         profile_name = NULL,
-                         endpoint = NULL,
-                         disable_ssl = FALSE,
-                         anonymous = FALSE,
-                         refresh = FALSE,
-                         ...) {
+#' @title Set paws config across smdocker package
+#' @param aws_access_key_id (character): AWS access key ID
+#' @param aws_secret_access_key (character): AWS secret access key
+#' @param aws_session_token (character): AWS temporary session token
+#' @param region_name (character): Default region when creating new connections
+#' @param profile_name (character): The name of a profile to use. If not given,
+#'              then the default profile is used.
+#' @param disable_ssl (logical): Whether or not to use SSL. By default, SSL is used.
+#' @param anonymous (logical): Set up anonymous credentials when connecting to AWS S3.
+#' @param refresh (logical): Refresh cached smdocker config
+#' @param ... Other parameters within \code{paws} client.
+#' @examples
+#' \dontrun{
+#' # Require AWS S3 credentials
+#'
+#' # Set up connection using profile
+#' paws_config(profile_name = "smdocker_example")
+#'
+#' # Reset connection to connect to a different region
+#' paws_config(
+#'     profile_name = "smdocker_example",
+#'     region_name = "us-east-1",
+#'     refresh = TRUE
+#'  )
+#' }
+#' @return environment containing smdocker config invisible
+#' @export
+paws_config <- function(aws_access_key_id = NULL,
+                        aws_secret_access_key = NULL,
+                        aws_session_token = NULL,
+                        region_name = NULL,
+                        profile_name = NULL,
+                        disable_ssl = FALSE,
+                        anonymous = FALSE,
+                        refresh = FALSE,
+                        ...) {
   self <- NULL
   if (!refresh) {
     self <- sm_docker_cache
@@ -82,7 +108,6 @@ paws_session <- function(aws_access_key_id = NULL,
   credentials$anonymous <- anonymous
   config$credentials <- add_list(credentials)
   config$region <- region_name
-  config$endpoint <- endpoint
   config$disable_ssl <- disable_ssl
 
   return(modifyList(config, list(...)))

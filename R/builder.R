@@ -1,10 +1,13 @@
+#' @include code_build.R
+#' @include logs.R
+
 #' @importFrom zip zip
 
 upload_zip_file <- function(repo_name,
                             bucket = NULL,
                             extra_args = list(),
                             dir = ".") {
-  self <- paws_session()
+  self <- paws_config()
   if (is.null(bucket)) {
     bucket <- sagemaker_default_bucket()
   }
@@ -57,7 +60,7 @@ upload_zip_file <- function(repo_name,
 
 
 sagemaker_default_bucket <- function() {
-  self <- paws_session()
+  self <- paws_config()
   region <- self$config$region
   account <- paws::sts(self$config)$get_caller_identity()[["Account"]]
   default_bucket <- sprintf("sagemaker-%s-%s", region, account)
@@ -68,7 +71,7 @@ sagemaker_default_bucket <- function() {
 }
 
 .create_s3_bucket_if_it_does_not_exist <- function(bucket_name, region) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::s3(self$config)
   resp <- tryCatch(
     {
@@ -106,7 +109,7 @@ sagemaker_default_bucket <- function() {
 }
 
 delete_zip_file <- function(bucket, key) {
-  self <- paws_session()
+  self <- paws_config()
   client <- paws::s3(self$config)
   client$delete_object(Bucket = bucket, Key = key)
 }
@@ -131,15 +134,14 @@ build_image <- function(repository,
 
   on.exit(delete_zip_file(s3$Bucket, s3$Key))
 
-  metadata <- code_build_project_init(
+  metadata <- codebuild_project_init(
     s3_location = sprintf("%s/%s", s3$Bucket, s3$Key),
     role = role,
     repository = repository,
     compute_type = compute_type,
     vpc_config = vpc_config
   )
-  log_params("create_project", metadata)
-  .create_project(metadata)
-  build(metadata, log)
+  codebuild_create_project(metadata)
+  codebuild_build(metadata, log)
   return(invisible())
 }
