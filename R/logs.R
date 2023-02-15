@@ -90,13 +90,15 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
   while (TRUE) {
     events <- lapply(stream_name, function(s) {
-      log_stream(
-        client,
-        log_group,
-        s,
-        log_env$positions[[s]]$timestamp,
-        log_env$positions[[s]]$skip
+      kwargs <- list(
+        client = client,
+        log_group = log_group,
+        stream_name = s,
+        start_time = log_env$positions[[s]]$timestamp,
+        skip = log_env$positions[[s]]$skip
       )
+      log_params("log_stream", kwargs)
+      do.call(log_stream, kwargs)
     })
 
     for (e in seq_along(events)) {
