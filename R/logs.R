@@ -56,12 +56,8 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   )[["builds"]][[1]]
   status <- description[["buildStatus"]]
 
-  DESCRIPTION <<- description
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
-
-  print(log_group)
-  print(stream_name)
 
   positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
   names(positions) <- stream_name
@@ -84,6 +80,8 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     log_group <- description$logs$groupName
     stream_name <- description$logs$streamName
   }
+
+  DESCRIPTION <<- description
 
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
