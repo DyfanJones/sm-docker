@@ -3,7 +3,6 @@
 
 #' @importFrom jsonlite read_json
 
-
 code_build_project_init <- function(s3_location,
                                     role,
                                     repository = NULL,
@@ -19,8 +18,8 @@ code_build_project_init <- function(s3_location,
 
   if (!is.null(repository)) {
     repo_split <- str_split(repository, ":", 2)[[1]]
-    metadata$repo_name <- repo_split[[1]]
-    metadata$tag <- repo_split[[2]]
+    metadata$repo_name <- repo_split[1]
+    metadata$tag <- repo_split[2]
   }
 
   if (!is.null(metadata$domain_id) & !is.null(metadata$user_profile_name)) {
@@ -117,7 +116,7 @@ code_build_project_init <- function(s3_location,
     args[["vpcConfig"]] <- metadata$vpc_config
   }
 
-  log_params("create project", args)
+  log_params("code build create project", args)
   do.call(client$create_project, args)
   return(invisible(NULL))
 }
