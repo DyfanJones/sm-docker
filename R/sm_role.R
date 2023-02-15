@@ -44,7 +44,7 @@ sagemaker_get_execution_role <- function() {
 ################################################################################
 
 sagemaker_get_caller_identity_arn <- function() {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::sagemaker(self$config)
 
   if (file.exists(NOTEBOOK_METADATA_FILE)) {

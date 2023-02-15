@@ -18,26 +18,26 @@ sm_docker_cache <- new.env(parent = emptyenv())
 #' # Require AWS S3 credentials
 #'
 #' # Set up connection using profile
-#' paws_config(profile_name = "smdocker_example")
+#' smdocker_config(profile_name = "smdocker_example")
 #'
 #' # Reset connection to connect to a different region
-#' paws_config(
-#'     profile_name = "smdocker_example",
-#'     region_name = "us-east-1",
-#'     refresh = TRUE
-#'  )
+#' smdocker_config(
+#'   profile_name = "smdocker_example",
+#'   region_name = "us-east-1",
+#'   refresh = TRUE
+#' )
 #' }
 #' @return environment containing smdocker config invisible
 #' @export
-paws_config <- function(aws_access_key_id = NULL,
-                        aws_secret_access_key = NULL,
-                        aws_session_token = NULL,
-                        region_name = NULL,
-                        profile_name = NULL,
-                        disable_ssl = FALSE,
-                        anonymous = FALSE,
-                        refresh = FALSE,
-                        ...) {
+smdocker_config <- function(aws_access_key_id = NULL,
+                            aws_secret_access_key = NULL,
+                            aws_session_token = NULL,
+                            region_name = NULL,
+                            profile_name = NULL,
+                            disable_ssl = FALSE,
+                            anonymous = FALSE,
+                            refresh = FALSE,
+                            ...) {
   self <- NULL
   if (!refresh) {
     self <- sm_docker_cache

@@ -50,7 +50,7 @@ log_stream <- function(client,
 }
 
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
-  self <- paws_config()
+  self <- smdocker_config()
   codebuild <- paws::codebuild(self$config)
   description <- codebuild$batch_get_builds(
     ids = list(build_id)

@@ -8,7 +8,7 @@ codebuild_project_init <- function(s3_location,
                                    repository = NULL,
                                    compute_type = NULL,
                                    vpc_config = NULL) {
-  self <- paws_config()
+  self <- smdocker_config()
   metadata <- .get_studio_metadata()
   metadata$s3_location <- s3_location
   metadata$role <- role
@@ -79,7 +79,7 @@ codebuild_project_init <- function(s3_location,
 }
 
 codebuild_create_project <- function(metadata) {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::codebuild(self$config)
   region <- self$config$region
 
@@ -122,7 +122,7 @@ codebuild_create_project <- function(metadata) {
 }
 
 .create_repo_if_required <- function(metadata) {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::ecr(self$config)
   tryCatch(
     {
@@ -140,7 +140,7 @@ codebuild_create_project <- function(metadata) {
 }
 
 .start_build <- function(metadata) {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::codebuild(self$config)
 
   response <- client$start_build(projectName = metadata$project_name)
@@ -148,7 +148,7 @@ codebuild_create_project <- function(metadata) {
 }
 
 .wait_for_build <- function(build_id, poll_seconds = 10) {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::codebuild(self$config)
   status <- client$batch_get_builds(ids = list(build_id))
   while (status$builds[[1]]$buildStatus == "IN_PROGRESS") {
@@ -163,7 +163,7 @@ codebuild_create_project <- function(metadata) {
 }
 
 .get_image_uri <- function(metadata) {
-  self <- paws_config()
+  self <- smdocker_config()
   client <- paws::ecr(self$config)
   tryCatch(
     {
