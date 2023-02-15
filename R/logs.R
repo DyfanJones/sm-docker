@@ -56,11 +56,14 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   )[["builds"]][[1]]
   status <- description[["buildStatus"]]
 
+  print(description)
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
   positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
   names(positions) <- stream_name
   log_env$positions <- positions
+
+  print(log_env$positions)
 
   client <- paws::cloudwatchlogs(self$config)
 
@@ -76,12 +79,10 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     description <- codebuild$batch_get_builds(
       ids = list(build_id)
     )$builds[[1]]
+    print(description)
     log_group <- description$logs$groupName
     stream_name <- description$logs$streamName
   }
-
-  print(log_group)
-  print(stream_name)
 
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
@@ -100,7 +101,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         log_env$positions[[s]]$skip
       )
     })
-    print(events)
 
     for (e in seq_along(events)) {
       msg <- vapply(
@@ -120,6 +120,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         log_env$positions[[e]]$skip <- 1
       }
     }
+    print(log_env$positions)
 
     if (state == LogState$COMPLETE) {
       break
