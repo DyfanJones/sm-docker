@@ -55,8 +55,9 @@ sm_build <- function(repository,
     paste0("--", names(extra_args))
   )
   names(extra_args) <- gsub("_", "-", names(extra_args))
-  extra_args <- lapply(extra_args,
-    function(arg) if(is.logical(arg)) tolower(arg) else arg
+  extra_args <- lapply(
+    extra_args,
+    function(arg) if (is.logical(arg)) tolower(arg) else arg
   )
 
   if (lengths(regmatches(repository, gregexpr(":", repository))) > 1) {
