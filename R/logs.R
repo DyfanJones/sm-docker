@@ -59,12 +59,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
 
-  positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
-  names(positions) <- stream_name
-  log_env$positions <- positions
-
   client <- paws::cloudwatchlogs(self$config)
-
   job_already_completed <- if (status == "IN_PROGRESS") FALSE else TRUE
 
   state <- (
@@ -81,6 +76,10 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     stream_name <- description$logs$streamName
   }
 
+  positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
+  names(positions) <- stream_name
+  log_env$positions <- positions
+
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
   }
@@ -90,15 +89,13 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
   while (TRUE) {
     events <- lapply(stream_name, function(s) {
-      kwargs <- list(
+      log_stream(
         client = client,
         log_group = log_group,
         stream_name = s,
         start_time = log_env$positions[[s]]$timestamp,
         skip = log_env$positions[[s]]$skip
       )
-      log_params("log_stream", kwargs)
-      do.call(log_stream, kwargs)
     })
 
     for (e in seq_along(events)) {
