@@ -3,7 +3,7 @@
 export(sagemaker_get_execution_role)
 export(sm_build)
 export(sm_docker_config_log)
-importFrom(josnlite,toJSON)
 importFrom(jsonlite,read_json)
+importFrom(jsonlite,toJSON)
 importFrom(utils,getFromNamespace)
 importFrom(utils,modifyList)

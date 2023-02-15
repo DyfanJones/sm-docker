@@ -6,7 +6,7 @@
 # Levels: 4 = DEBUG, 3 = INFO/MSG, 2 = WARNING, 1 = ERROR
 
 #' @importFrom utils modifyList
-#' @importFrom josnlite toJSON
+#' @importFrom jsonlite toJSON
 
 #' @title sm_docker logging system
 #' @description Ability to configure sm_docker logging system, through the use of sm_docker
