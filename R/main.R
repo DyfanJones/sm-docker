@@ -59,6 +59,7 @@ sm_build <- function(repository,
     extra_args,
     function(arg) if (is.logical(arg)) tolower(arg) else arg
   )
+  extra_args <- c(".", extra_args)
 
   if (lengths(regmatches(repository, gregexpr(":", repository))) > 1) {
     stop(sprintf(
