@@ -131,7 +131,7 @@ build_image <- function(repository,
     compute_type = compute_type,
     vpc_config = vpc_config
   )
-  log_params("create_project", meatadata)
+  log_params("create_project", metadata)
   .create_project(metadata)
   build(metadata, log)
   return(invisible())
