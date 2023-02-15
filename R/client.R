@@ -59,9 +59,6 @@ smdocker_config <- function(aws_access_key_id = NULL,
       "`profile_name` is required to be a character vector" = (
         is.character(profile_name) || is.null(profile_name)
       ),
-      "`endpoint` is required to be a character vector" = (
-        is.character(endpoint) || is.null(endpoint)
-      ),
       "`disable_ssl` is required to be a character vector" = (
         is.logical(disable_ssl)
       ),

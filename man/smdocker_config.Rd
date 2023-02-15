@@ -51,9 +51,9 @@ smdocker_config(profile_name = "smdocker_example")
 
 # Reset connection to connect to a different region
 smdocker_config(
-    profile_name = "smdocker_example",
-    region_name = "us-east-1",
-    refresh = TRUE
- )
+  profile_name = "smdocker_example",
+  region_name = "us-east-1",
+  refresh = TRUE
+)
 }
 }
