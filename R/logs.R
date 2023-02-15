@@ -56,6 +56,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   )[["builds"]][[1]]
   status <- description[["buildStatus"]]
 
+  DESCRIPTION <<- description
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
 
