@@ -21,7 +21,7 @@
 #' (NOTE: use "_" instead of "-" for example: docker optional parameter
 #' \code{build-arg} becomes \code{build_arg})
 #' @export
-sm_build <- function(repository,
+sm_build <- function(repository = NULL,
                      compute_type = c(
                        "BUILD_GENERAL1_SMALL", "BUILD_GENERAL1_MEDIUM",
                        "BUILD_GENERAL1_LARGE", "BUILD_GENERAL1_2XLARGE"
@@ -61,10 +61,13 @@ sm_build <- function(repository,
   )
   extra_args <- c(".", extra_args)
 
-  if (lengths(regmatches(repository, gregexpr(":", repository))) > 1) {
-    stop(sprintf(
-      "Error parsing reference: %s is not a valid repository/tag", repository
-    ), call. = F)
+  if (!is.null(repository)) {
+    repo_len <- lengths(regmatches(repository, gregexpr(":", repository)))
+    if (repo_len == 1) {
+      stop(sprintf(
+        "%s is not a valid repository:tag", repository
+      ), call. = F)
+    }
   }
 
   build_image(
