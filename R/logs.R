@@ -72,7 +72,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   )
   dot <- TRUE
 
-  while (state == LogState$STARTING & is.null(log_group)) {
+  while (state == LogState$STARTING & identical(log_group, character(0))) {
     Sys.sleep(poll)
     description <- codebuild$batch_get_builds(
       ids = list(build_id)
@@ -80,8 +80,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     log_group <- description$logs$groupName
     stream_name <- description$logs$streamName
   }
-
-  DESCRIPTION <<- description
 
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
