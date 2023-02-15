@@ -101,7 +101,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
     for (e in seq_along(events)) {
       msg <- vapply(
-        events[[e]], function(l) trimws(gsub("<U\\+2500>", "─", l$message), which = "right"),
+        events[[e]], function(l) trimws(l$message, which = "right"),
         FUN.VALUE = character(1)
       )
       # break if nothing exists in list
