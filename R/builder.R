@@ -120,13 +120,20 @@ build_image <- function(repository,
                         extra_args,
                         log = TRUE) {
   s3 <- upload_zip_file(
-    repository, bucket, paste(names(extra_args), extra_args, collapse = " "), dir
+    repository, bucket,
+    paste(
+      names(extra_args),
+      lapply(extra_args, paste, collapse = " "),
+      collapse = " "
+    ),
+    dir
   )
 
   on.exit(delete_zip_file(s3$Bucket, s3$Key))
 
   metadata <- code_build_project_init(
-    sprintf("%s/%s", s3$Bucket, s3$Key), role,
+    s3_location = sprintf("%s/%s", s3$Bucket, s3$Key),
+    role = role,
     repository = repository,
     compute_type = compute_type,
     vpc_config = vpc_config
