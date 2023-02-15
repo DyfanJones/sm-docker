@@ -15,9 +15,13 @@ upload_zip_file <- function(repo_name,
 
   tmp_dir <- tempfile()
   tmp <- tempfile(fileext = ".zip")
+
+  origdir <- getwd()
+
   on.exit({
     fs::file_delete(tmp)
     fs::dir_delete(tmp_dir)
+    setwd(origdir)
   })
 
   dir <- normalizePath(dir)
@@ -28,6 +32,7 @@ upload_zip_file <- function(repo_name,
     tmp_dir
   )
 
+  setwd(file.path(tmp_dir, basename(dir)))
   buildspec_replaced <- readLines(
     system.file("buildspec.template.yml", package = "smdocker")
   )
