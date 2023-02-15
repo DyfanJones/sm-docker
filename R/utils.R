@@ -66,15 +66,15 @@ paws_error_code <- function(error) {
   return(error[["error_response"]][["__type"]] %||% error[["error_response"]][["Code"]])
 }
 
-retry_api_call <- function(expr, retry = 5) {
+retry_api_call <- function(expr, retries = 5) {
   # if number of retries is equal to 0 then retry is skipped
-  if (retry == 0) {
+  if (retries == 0) {
     resp <- tryCatch(eval.parent(substitute(expr)),
       error = function(e) e
     )
   }
 
-  for (i in seq_len(retry)) {
+  for (i in seq_len(retries)) {
     resp <- tryCatch(eval.parent(substitute(expr)),
       error = function(e) e
     )
