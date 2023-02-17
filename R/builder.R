@@ -118,12 +118,15 @@ sagemaker_default_bucket <- function() {
 delete_zip_file <- function(bucket, key) {
   self <- smdocker_config()
   client <- s3(self$config)
-  tryCatch({
-    client$delete_object(Bucket = bucket, Key = key)
-  }, http_403 = function(err) {
-    log_error(err$message)
-    log_error("Failed to delete: s3://%s/%s", bucket, key)
-  })
+  tryCatch(
+    {
+      client$delete_object(Bucket = bucket, Key = key)
+    },
+    http_403 = function(err) {
+      log_error(err$message)
+      log_error("Failed to delete: s3://%s/%s", bucket, key)
+    }
+  )
 }
 
 extra_docker_args <- function(extra_args) {
