@@ -9,9 +9,13 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
     jsonlite,
-    paws,
-    fs,
     zip,
+    paws.developer.tools,
+    paws.management,
+    paws.storage,
+    paws.security.identity,
+    paws.compute,
+    paws.machine.learning,
     utils
 Suggests:
     crayon,
@@ -23,7 +27,7 @@ Collate:
     'utils.R'
     'code_build.R'
     'builder.R'
-    'client.R'
+    'config.R'
     'logging.R'
     'sm_role.R'
     'main.R'
