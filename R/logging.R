@@ -1,24 +1,24 @@
 # Developed from IRkernel logging system
 # https://github.com/IRkernel/IRkernel/blob/a862774dc0758b23ef4e911a3c0b1d9e550652bc/R/logging.r
 
-# basic sm_docker logging system
+# basic smdocker logging system
 # Error messages only shown
 # Levels: 4 = DEBUG, 3 = INFO/MSG, 2 = WARNING, 1 = ERROR
 
 #' @importFrom utils modifyList
 #' @importFrom jsonlite toJSON
 
-#' @title sm_docker logging system
-#' @description Ability to configure sm_docker logging system, through the use of sm_docker
-#' helper function \code{`sm_docker_config_log`} or `R:base` \code{options} function.
-#' Users are able to change logging levels without calling \code{sm_docker.common} by
-#' the use of \code{options} e.g. \code{options("sm_docker.log_level" = 2L)}.
+#' @title smdocker logging system
+#' @description Ability to configure smdocker logging system, through the use of smdocker
+#' helper function \code{`smdocker_config_log`} or `R:base` \code{options} function.
+#' Users are able to change logging levels without calling \code{smdocker.common} by
+#' the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
 #' \itemize{
-#'    \item{sm_docker.log_level} {integer: The minimum log level that should be tracked}
-#'    \item{sm_docker.log_file} {
+#'    \item{smdocker.log_level} {integer: The minimum log level that should be tracked}
+#'    \item{smdocker.log_file} {
 #'        character: path for logs to populate, default output logs to console.
 #'    }
-#'    \item{sm_docker.log_timestamp_fmt} {character: see [format.POSIXct()]}
+#'    \item{smdocker.log_timestamp_fmt} {character: see [format.POSIXct()]}
 #' }
 #' @param level integer to determine the level logging threshold.
 #' \itemize{
@@ -32,18 +32,18 @@
 #' @examples
 #' # log to a file
 #' temp_file <- tempfile()
-#' sm_docker_config_log(file = temp_file)
+#' smdocker_config_log(file = temp_file)
 #' unlink(temp_file)
 #'
 #' # change log threshold to INFO
-#' sm_docker_config_log(level = 3L)
+#' smdocker_config_log(level = 3L)
 #'
 #' # reset to default config
-#' sm_docker_config_log()
+#' smdocker_config_log()
 #' @export
-sm_docker_config_log <- function(level = 3L,
-                                 file = "",
-                                 timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
+smdocker_config_log <- function(level = 3L,
+                                file = "",
+                                timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
     "`level` must be integer" = is.integer(level),
     "`file` must be character" = is.character(file),
@@ -55,18 +55,18 @@ sm_docker_config_log <- function(level = 3L,
   }
 
   log_config <- list(
-    sm_docker.log_level = level,
-    sm_docker.log_file = file,
-    sm_docker.log_timestamp_fmt = timestamp_fmt
+    smdocker.log_level = level,
+    smdocker.log_file = file,
+    smdocker.log_timestamp_fmt = timestamp_fmt
   )
   do.call(options, log_config)
 }
 
 # default log settings
-sm_docker_logging_opt <- list(
-  sm_docker.log_level = 2L,
-  sm_docker.log_file = "",
-  sm_docker.log_timestamp_fmt = "%Y-%m-%d %H:%M:%OS3"
+smdocker_logging_opt <- list(
+  smdocker.log_level = 2L,
+  smdocker.log_file = "",
+  smdocker.log_timestamp_fmt = "%Y-%m-%d %H:%M:%OS3"
 )
 
 # Help parse log messages that contain % i.e. encoded urls
@@ -75,31 +75,31 @@ parse_msg <- function(...) {
 }
 
 log_debug <- function(...) {
-  if (isTRUE(getOption("sm_docker.log_level") >= 4L)) {
+  if (isTRUE(getOption("smdocker.log_level") >= 4L)) {
     log_msg("DEBUG", parse_msg(...))
   }
 }
 
 log_info <- function(...) {
-  if (isTRUE(getOption("sm_docker.log_level") >= 3L)) {
+  if (isTRUE(getOption("smdocker.log_level") >= 3L)) {
     log_msg("INFO", parse_msg(...))
   }
 }
 
 log_warn <- function(...) {
-  if (isTRUE(getOption("sm_docker.log_level") >= 2L)) {
+  if (isTRUE(getOption("smdocker.log_level") >= 2L)) {
     log_msg("WARN", parse_msg(...))
   }
 }
 
 log_error <- function(...) {
-  if (isTRUE(getOption("sm_docker.log_level") >= 1L)) {
+  if (isTRUE(getOption("smdocker.log_level") >= 1L)) {
     log_msg("ERROR", parse_msg(...))
   }
 }
 
 log_msg <- function(lvl, msg) {
-  log_file <- getOption("sm_docker.log_file")
+  log_file <- getOption("smdocker.log_file")
   now <- strftime(Sys.time(), "%Y-%m-%d %H:%M:%OS3")
   cat(
     sprintf("%s [%s]: %s\n", log_color(lvl), now, msg),
@@ -125,13 +125,13 @@ log_color <- function(lvl) {
 
 init_log_config <- function() {
   #---- set up logging ----
-  log_opt_name <- names(sm_docker_logging_opt)
+  log_opt_name <- names(smdocker_logging_opt)
 
   # check R options for log settings
   r_options <- lapply(log_opt_name, getOption)
   names(r_options) <- log_opt_name
-  sm_docker_logging_opt <- modifyList(
-    sm_docker_logging_opt, Filter(Negate(is.null), r_options)
+  smdocker_logging_opt <- modifyList(
+    smdocker_logging_opt, Filter(Negate(is.null), r_options)
   )
 
   # check environment variables for log settings
@@ -141,13 +141,13 @@ init_log_config <- function() {
     unset = NA
   )
   names(env_options) <- c(log_opt_name)
-  sm_docker_logging_opt <- modifyList(
-    sm_docker_logging_opt, Filter(Negate(is.na), env_options)
+  smdocker_logging_opt <- modifyList(
+    smdocker_logging_opt, Filter(Negate(is.na), env_options)
   )
   # ensure log level is an integer
-  sm_docker_logging_opt$sm_docker.log_level <- as.integer(sm_docker_logging_opt$sm_docker.log_level)
+  smdocker_logging_opt$smdocker.log_level <- as.integer(smdocker_logging_opt$smdocker.log_level)
 
-  do.call(options, sm_docker_logging_opt)
+  do.call(options, smdocker_logging_opt)
 }
 
 init_log_styles <- function() {

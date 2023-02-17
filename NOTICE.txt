@@ -1,4 +1,4 @@
-The smdocekr package include components from other open source packages. he packages and authors are listed below, with their licenses are mentioned parenthetically. A full copy of each unique license agreement is also included in this file.
+The smdocker package include components from other open source packages. The packages and authors are listed below, with their licenses are mentioned parenthetically. A full copy of each unique license agreement is also included in this file.
 
 * Amazon SageMaker Python SDK (https://github.com/aws/sagemaker-python-sdk) by Amazon.com. Inc. (Apache-2.0).
 

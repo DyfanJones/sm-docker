@@ -1,6 +1,6 @@
 Package: smdocker
 Title: Build 'Docker Images' in 'Amazon SageMaker Studio'
-       using 'AWS CodeBuild' <https://aws.amazon.com/codebuild/>
+       using 'AWS CodeBuild'
 Version: 0.0.0.9000
 Authors@R: c(person("Dyfan", "Jones", email="dyfan.r.jones@gmail.com", role= c("aut", "cre")))
 Description: Allows users to easily build custom 'docker images' <https://docs.docker.com/> from
@@ -10,15 +10,15 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
     jsonlite,
-    zip,
+    paws.compute,
     paws.developer.tools,
+    paws.machine.learning,
     paws.management,
     paws.storage,
     paws.security.identity,
-    paws.compute,
-    paws.machine.learning,
-    utils,
-    stats
+    zip,
+    stats,
+    utils
 Suggests:
     crayon,
     testthat (>= 3.0.0)
