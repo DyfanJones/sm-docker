@@ -124,8 +124,10 @@ delete_zip_file <- function(bucket, key) {
 extra_docker_args <- function(extra_args) {
   paste(
     names(extra_args),
-    lapply(names(extra_args),
-           function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))),
+    lapply(
+      names(extra_args),
+      function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))
+    ),
     collapse = " "
   )
 }

@@ -42,8 +42,8 @@
 #' smdocker_config_log()
 #' @export
 smdocker_config_log <- function(level = 3L,
-                                 file = "",
-                                 timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
+                                file = "",
+                                timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
     "`level` must be integer" = is.integer(level),
     "`file` must be character" = is.character(file),
