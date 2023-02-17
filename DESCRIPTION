@@ -1,10 +1,11 @@
 Package: smdocker
-Title: What the Package Does (One Line, Title Case)
+Title: Build 'Docker Images' in 'Amazon SageMaker Studio'
+       using 'AWS CodeBuild' <https://aws.amazon.com/codebuild/>
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Authors@R: c(person("Dyfan", "Jones", email="dyfan.r.jones@gmail.com", role= c("aut", "cre")))
+Description: Allows users to easily build custom 'docker images' <https://docs.docker.com/> from
+    'Amazon Web Servers Sagemaker Studio' <https://aws.amazon.com/sagemaker/> using
+    'AWS CodeBuild' <https://aws.amazon.com/codebuild/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
@@ -16,10 +17,11 @@ Imports:
     paws.security.identity,
     paws.compute,
     paws.machine.learning,
-    utils
+    utils,
+    stats
 Suggests:
     crayon,
-    testthat
+    testthat (>= 3.0.0)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Collate: 
@@ -32,3 +34,4 @@ Collate:
     'sm_role.R'
     'main.R'
     'zzz.R'
+Config/testthat/edition: 3

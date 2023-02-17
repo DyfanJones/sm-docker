@@ -73,7 +73,7 @@ sagemaker_default_bucket <- function() {
   .create_s3_bucket_if_it_does_not_exist(
     bucket_name = default_bucket, region = region
   )
-  return(defaukt_bucket)
+  return(default_bucket)
 }
 
 .create_s3_bucket_if_it_does_not_exist <- function(bucket_name, region) {

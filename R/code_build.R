@@ -157,7 +157,7 @@ codebuild_create_project <- function(metadata) {
   while (status$builds[[1]]$buildStatus == "IN_PROGRESS") {
     writeLines(".", sep = "")
     flush(stdout())
-    Sys.time(poll_seconds)
+    Sys.sleep(poll_seconds)
     status <- client$batch_get_builds(ids = list(build_id))
   }
   writeLines("")
