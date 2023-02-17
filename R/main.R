@@ -11,9 +11,9 @@
 #' use the SageMaker SDK default bucket).
 #' @param vpc_id The Id of the VPC that will host the CodeBuild Project
 #' (such as vpc-05c09f91d48831c8c).
-#' @param subnet_ids The comma-separated list of subnet ids for the CodeBuild Project
+#' @param subnet_ids List of subnet ids for the CodeBuild Project
 #' (such as subnet-0b31f1863e9d31a67)
-#' @param security_group_ids The comma-separated list of security group ids for
+#' @param security_group_ids List of security group ids for
 #' the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).
 #' @param log Show the logs of the running CodeBuild build
 #' @param ... docker build parameters
@@ -34,6 +34,33 @@ sm_build <- function(repository = NULL,
                      security_group_ids = list(),
                      log = TRUE,
                      ...) {
+  stopifnot(
+    "`repository` is required to be a character vector" = (
+      is.character(repository) || is.null(repository)
+    ),
+    "`role` is required to be a character vector" = (
+      is.character(role) || is.null(role)
+    ),
+    "`dir` is required to be a character vector" = (
+      is.character(dir)
+    ),
+    "`bucket` is required to be a character vector" = (
+      is.character(bucket) || is.null(bucket)
+    ),
+    "`vpc_id` is required to be a character vector" = (
+      is.character(vpc_id) || is.null(vpc_id)
+    ),
+    "`subnet_ids` is required to be a list" = (
+      is.list(subnet_ids)
+    ),
+    "`security_group_ids` is required to be a list" = (
+      is.list(security_group_ids)
+    ),
+    "`log` is required to be a logical" = (
+      is.logical(log)
+    )
+  )
+
   extra_args <- list(...)
 
   compute_type <- match.arg(compute_type)
