@@ -121,6 +121,15 @@ delete_zip_file <- function(bucket, key) {
   client$delete_object(Bucket = bucket, Key = key)
 }
 
+extra_docker_args <- function(extra_args) {
+  paste(
+    names(extra_args),
+    lapply(names(extra_args),
+           function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))),
+    collapse = " "
+  )
+}
+
 build_image <- function(repository,
                         role,
                         dir,
@@ -131,11 +140,7 @@ build_image <- function(repository,
                         log = TRUE) {
   s3 <- upload_zip_file(
     repository, bucket,
-    paste(
-      names(extra_args),
-      lapply(extra_args, paste, collapse = " "),
-      collapse = " "
-    ),
+    extra_docker_args(extra_args),
     dir
   )
 
