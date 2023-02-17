@@ -1,4 +1,6 @@
 #' @importFrom jsonlite read_json
+#' @importFrom paws.machine.learning sagemaker
+#' @importFrom paws.security.identity sts iam
 
 NOTEBOOK_METADATA_FILE <- "/opt/ml/metadata/resource-metadata.json"
 
@@ -45,7 +47,7 @@ sagemaker_get_execution_role <- function() {
 
 sagemaker_get_caller_identity_arn <- function() {
   self <- smdocker_config()
-  client <- paws::sagemaker(self$config)
+  client <- sagemaker(self$config)
 
   if (file.exists(NOTEBOOK_METADATA_FILE)) {
     metadata <- read_json(NOTEBOOK_METADATA_FILE)
@@ -81,7 +83,7 @@ sagemaker_get_caller_identity_arn <- function() {
     )
   }
 
-  assumed_role <- paws::sts(
+  assumed_role <- sts(
     modifyList(self$config, list(
       region = self$config$region,
       endpoint = sts_regional_endpoint(self$config$region)
@@ -94,7 +96,7 @@ sagemaker_get_caller_identity_arn <- function() {
   role_name <- substr(role, gregexpr("/", role)[[1]][1] + 1, nchar(role))
   tryCatch(
     {
-      role <- paws::iam(self$config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
+      role <- iam(self$config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
     },
     error = function(e) {
       log_warn(

@@ -1,6 +1,5 @@
-#' @import paws
-
-log_env <- new.env(parent = emptyenv())
+#' @importFrom paws.developer.tools codebuild
+#' @importFrom paws.management cloudwatchlogs
 
 LogState <- list(
   STARTING = 1,
@@ -51,8 +50,8 @@ log_stream <- function(client,
 
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   self <- smdocker_config()
-  codebuild <- paws::codebuild(self$config)
-  description <- codebuild$batch_get_builds(
+  codebuild_client <- codebuild(self$config)
+  description <- codebuild_client$batch_get_builds(
     ids = list(build_id)
   )[["builds"]][[1]]
   status <- description[["buildStatus"]]
@@ -60,7 +59,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
 
-  client <- paws::cloudwatchlogs(self$config)
+  client <- cloudwatchlogs(self$config)
   job_already_completed <- if (status == "IN_PROGRESS") FALSE else TRUE
 
   state <- (
@@ -70,7 +69,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
   while (state == LogState$STARTING & identical(log_group, character(0))) {
     Sys.sleep(poll)
-    description <- codebuild$batch_get_builds(
+    description <- codebuild_client$batch_get_builds(
       ids = list(build_id)
     )[["builds"]][[1]]
     log_group <- description$logs$groupName
@@ -79,7 +78,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
 
   positions <- rep(list(list(timestamp = 0, skip = 1)), length(stream_name))
   names(positions) <- stream_name
-  log_env$positions <- positions
 
   if (state == LogState$STARTING) {
     state <- LogState$TAILING
@@ -94,8 +92,8 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         client = client,
         log_group = log_group,
         stream_name = s,
-        start_time = log_env$positions[[s]]$timestamp,
-        skip = log_env$positions[[s]]$skip
+        start_time = positions[[s]]$timestamp,
+        skip = positions[[s]]$skip
       )
     })
 
@@ -109,12 +107,12 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       writeLines(msg)
 
       count <- length(events[[e]])
-      if (events[[e]][[count]]$timestamp == log_env$positions[[e]]$timestamp) {
-        log_env$positions[[e]]$timestamp <- events[[e]][[count]]$timestamp
-        log_env$positions[[e]]$skip <- count + 1
+      if (events[[e]][[count]]$timestamp == positions[[e]]$timestamp) {
+        positions[[e]]$timestamp <- events[[e]][[count]]$timestamp
+        positions[[e]]$skip <- count + 1
       } else {
-        log_env$positions[[e]]$timestamp <- events[[e]][[count]]$timestamp
-        log_env$positions[[e]]$skip <- 1
+        positions[[e]]$timestamp <- events[[e]][[count]]$timestamp
+        positions[[e]]$skip <- 1
       }
     }
 
@@ -130,7 +128,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     if (state == LogState$JOB_COMPLETE) {
       state <- LogState$COMPLETE
     } else if ((Sys.time() - last_describe_job_call) >= 30) {
-      description <- codebuild$batch_get_builds(
+      description <- codebuild_client$batch_get_builds(
         ids = list(build_id)
       )$builds[[1]]
       status <- description$buildStatus

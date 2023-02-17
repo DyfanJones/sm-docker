@@ -2,6 +2,9 @@
 #' @include logs.R
 
 #' @importFrom jsonlite read_json
+#' @importFrom paws.developer.tools codebuild
+#' @importFrom paws.security.identity sts
+#' @importFrom paws.compute ecr
 
 codebuild_project_init <- function(s3_location,
                                    role,
@@ -80,10 +83,10 @@ codebuild_project_init <- function(s3_location,
 
 codebuild_create_project <- function(metadata) {
   self <- smdocker_config()
-  client <- paws::codebuild(self$config)
+  client <- codebuild(self$config)
   region <- self$config$region
 
-  caller_identity <- paws::sts(self$config)$get_caller_identity()
+  caller_identity <- sts(self$config)$get_caller_identity()
   account <- caller_identity[["Account"]]
   partition <- str_split(caller_identity[["Arn"]], ":")[[1]][[2]]
 
@@ -123,7 +126,7 @@ codebuild_create_project <- function(metadata) {
 
 .create_repo_if_required <- function(metadata) {
   self <- smdocker_config()
-  client <- paws::ecr(self$config)
+  client <- ecr(self$config)
   tryCatch(
     {
       client$create_repository(repositoryName = metadata$repo_name)
@@ -141,7 +144,7 @@ codebuild_create_project <- function(metadata) {
 
 .start_build <- function(metadata) {
   self <- smdocker_config()
-  client <- paws::codebuild(self$config)
+  client <- codebuild(self$config)
 
   response <- client$start_build(projectName = metadata$project_name)
   return(response[["build"]][["id"]])
@@ -149,7 +152,7 @@ codebuild_create_project <- function(metadata) {
 
 .wait_for_build <- function(build_id, poll_seconds = 10) {
   self <- smdocker_config()
-  client <- paws::codebuild(self$config)
+  client <- codebuild(self$config)
   status <- client$batch_get_builds(ids = list(build_id))
   while (status$builds[[1]]$buildStatus == "IN_PROGRESS") {
     writeLines(".", sep = "")
@@ -164,7 +167,7 @@ codebuild_create_project <- function(metadata) {
 
 .get_image_uri <- function(metadata) {
   self <- smdocker_config()
-  client <- paws::ecr(self$config)
+  client <- ecr(self$config)
   tryCatch(
     {
       repository_uri <- client$describe_repositories(

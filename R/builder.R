@@ -1,6 +1,8 @@
 #' @include code_build.R
 #' @include logs.R
 
+#' @importFrom paws.security.identity sts
+#' @importFrom paws.storage s3
 #' @importFrom zip zip
 
 upload_zip_file <- function(repo_name,
@@ -24,32 +26,37 @@ upload_zip_file <- function(repo_name,
   origdir <- getwd()
 
   on.exit({
-    fs::file_delete(tmp)
-    fs::dir_delete(tmp_dir)
+    unlink(tmp, recursive = TRUE, force = TRUE)
+    unlink(tmp_dir, recursive = TRUE, force = TRUE)
     setwd(origdir)
   })
 
   dir <- normalizePath(dir)
 
-  fs::dir_create(tmp_dir)
-  fs::dir_copy(
-    dir,
-    tmp_dir
-  )
+  file_ls <- list.files(dir, recursive = T, all.files = T)
+  dir_ls <- list.dirs(dir, recursive = T, full.names = F)
 
-  setwd(file.path(tmp_dir, basename(dir)))
+  # copy directory to temporary location
+  lapply(file.path(tmp_dir, dir_ls), dir.create, recursive = TRUE)
+  lapply(file_ls, function(src) {
+    file.copy(
+      src, file.path(tmp_dir, src)
+    )
+  })
+
+  setwd(tmp_dir)
   buildspec_replaced <- readLines(
     system.file("buildspec.template.yml", package = "smdocker")
   )
   buildspec_replaced <- gsub("REPLACE_ME_BUILD_ARGS", extra_args, buildspec_replaced)
-  writeLines(buildspec_replaced, file.path(tmp_dir, basename(dir), "buildspec.yml"))
+  writeLines(buildspec_replaced, file.path(tmp_dir, "buildspec.yml"))
 
   zip::zip(
     zipfile = tmp,
     files = list.files(recursive = T)
   )
 
-  client <- paws::s3(self$config)
+  client <- paws.storage::s3(self$config)
   client$put_object(
     Bucket = bucket,
     Key = key,
@@ -58,11 +65,10 @@ upload_zip_file <- function(repo_name,
   return(list(Bucket = bucket, Key = key))
 }
 
-
 sagemaker_default_bucket <- function() {
   self <- smdocker_config()
   region <- self$config$region
-  account <- paws::sts(self$config)$get_caller_identity()[["Account"]]
+  account <- sts(self$config)$get_caller_identity()[["Account"]]
   default_bucket <- sprintf("sagemaker-%s-%s", region, account)
   .create_s3_bucket_if_it_does_not_exist(
     bucket_name = default_bucket, region = region
@@ -72,13 +78,13 @@ sagemaker_default_bucket <- function() {
 
 .create_s3_bucket_if_it_does_not_exist <- function(bucket_name, region) {
   self <- smdocker_config()
-  client <- paws::s3(self$config)
+  client <- s3(self$config)
   resp <- tryCatch(
     {
       client$head_bucket(Bucket = bucket_name)
     },
-    error = function(e) {
-      e
+    error = function(error) {
+      error
     }
   )
 
@@ -92,16 +98,16 @@ sagemaker_default_bucket <- function() {
         )
         log_info("Created S3 bucket: %s", bucket_name)
       },
-      error = function(e) {
-        error_code <- paws_error_code(e)
-        message <- e$error_response$Message
+      error = function(err) {
+        error_code <- paws_error_code(err)
+        message <- err$error_response$Message
         if (identical(error_code, "BucketAlreadyOwnedByYou")) {
           invisible(NULL)
         } else if (identical(error_code, "OperationAborted") &&
           grepl("conflicting conditional operation", message)) {
           invisible(NULL)
         } else {
-          stop(e)
+          stop(err)
         }
       }
     )
@@ -110,7 +116,7 @@ sagemaker_default_bucket <- function() {
 
 delete_zip_file <- function(bucket, key) {
   self <- smdocker_config()
-  client <- paws::s3(self$config)
+  client <- s3(self$config)
   client$delete_object(Bucket = bucket, Key = key)
 }
 
