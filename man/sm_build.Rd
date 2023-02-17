@@ -34,10 +34,10 @@ use the SageMaker SDK default bucket).}
 \item{vpc_id}{The Id of the VPC that will host the CodeBuild Project
 (such as vpc-05c09f91d48831c8c).}
 
-\item{subnet_ids}{The comma-separated list of subnet ids for the CodeBuild Project
+\item{subnet_ids}{List of subnet ids for the CodeBuild Project
 (such as subnet-0b31f1863e9d31a67)}
 
-\item{security_group_ids}{The comma-separated list of security group ids for
+\item{security_group_ids}{List of security group ids for
 the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).}
 
 \item{log}{Show the logs of the running CodeBuild build}
