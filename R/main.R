@@ -98,7 +98,7 @@ construct_vpc_config <- function(vpc_id = NULL,
   if (is.null(vpc_id)) {
     return(NULL)
   } else {
-    if (length(subnet_ids) == 0 | length(security_group_ids)) {
+    if (length(subnet_ids) == 0 | length(security_group_ids) == 0) {
       stop(
         "Invalid input of the VPC configuration. Please either provide all of the ",
         "VPC arguments or none of them, ",

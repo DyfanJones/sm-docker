@@ -1,0 +1,5 @@
+FROM rocker/r-base
+
+COPY helloworld.R /opt/ml/helloworld.R
+
+CMD Rscript /opt/ml/helloworld.R
