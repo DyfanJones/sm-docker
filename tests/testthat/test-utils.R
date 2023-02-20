@@ -69,3 +69,30 @@ test_that("check regional_hostname", {
     )
   )
 })
+
+test_that("check get_region default", {
+  mock_pkg_method <- mock2(function(...) {"foo"})
+  mockery::stub(get_region, "pkg_method", mock_pkg_method)
+  actual <- get_region()
+  expect_equal(actual, "foo")
+})
+
+test_that("check get_region no region found", {
+  mock_pkg_method <- mock2(function(...) stop(""))
+  mockery::stub(get_region, "pkg_method", mock_pkg_method)
+  actual <- get_region()
+  expect_equal(actual, "us-east-1")
+})
+
+test_that("check pkg_method method found", {
+  expect_no_error(
+    pkg_method("get_region", "paws.common")
+  )
+})
+
+test_that("check pkg_method not found", {
+  expect_error(
+    pkg_method("made-up", "foobar"),
+    "made-up requires the foobar package, please install it first and try again"
+  )
+})
