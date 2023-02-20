@@ -78,7 +78,9 @@ test_that("check sts_regional_endpoint", {
 })
 
 test_that("check get_region default", {
-  mock_pkg_method <- mock2(function(...) {"foo"})
+  mock_pkg_method <- mock2(function(...) {
+    "foo"
+  })
   mockery::stub(get_region, "pkg_method", mock_pkg_method)
   actual <- get_region()
   expect_equal(actual, "foo")
@@ -108,9 +110,11 @@ test_that("check if retry is working correctly", {
   temp_file <- tempfile()
   options("smdocker.log_file" = temp_file)
 
-  err_fun = function() stop(
-    structure(list(message = "dummy error"), class = c("http_500", "error", "condition"))
-  )
+  err_fun <- function() {
+    stop(
+      structure(list(message = "dummy error"), class = c("http_500", "error", "condition"))
+    )
+  }
 
   expect_error(
     retry_api_call(

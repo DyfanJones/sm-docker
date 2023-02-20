@@ -20,14 +20,14 @@ test_that("check upload_zip_file project files", {
 
   zip_actual <- mock_arg(mock_zip)
   s3_actual <- mock_arg(mock_put_object)
-  expect_true(grepl(sprintf("%s/file.*zip",tempdir()), zip_actual$zipfile))
+  expect_true(grepl(sprintf("%s/file.*zip", tempdir()), zip_actual$zipfile))
   expect_equal(
     zip_actual$files, c("buildspec.yml", "dockerfile", "helloworld.R")
   )
   expect_true(
     grepl("codebuild-sagemaker-container-[A-Za-z]+\\.zip", s3_actual$Key)
   )
-  expect_true(grepl(sprintf("%s/file.*zip",tempdir()), s3_actual$Body))
+  expect_true(grepl(sprintf("%s/file.*zip", tempdir()), s3_actual$Body))
 })
 
 test_that("check upload_zip_file check buildspec", {

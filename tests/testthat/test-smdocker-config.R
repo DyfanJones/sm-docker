@@ -40,7 +40,7 @@ test_that("check smdocker_config full parameters", {
 })
 
 test_that("check smdocker_config wrong parameters", {
-  kwargs = list(
+  kwargs <- list(
     list(
       aws_access_key_id = 1,
       refresh = TRUE

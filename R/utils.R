@@ -67,23 +67,28 @@ paws_error_code <- function(error) {
   return(error[["error_response"]][["__type"]] %||% error[["error_response"]][["Code"]])
 }
 
-retry_api_call = function(expr, retries = 5){
-  if(retries == 0){
+retry_api_call <- function(expr, retries = 5) {
+  if (retries == 0) {
     return(eval.parent(substitute(expr)))
   }
 
-  for (i in seq_len(retries + 1)){
-    tryCatch({
-      return(eval.parent(substitute(expr)))
-    }, http_500 = function(err) {
-      if(i == (retries + 1))
+  for (i in seq_len(retries + 1)) {
+    tryCatch(
+      {
+        return(eval.parent(substitute(expr)))
+      },
+      http_500 = function(err) {
+        if (i == (retries + 1)) {
+          stop(err)
+        }
+        time <- 2**i * 0.1
+        log_error("Request failed. Retrying in %s seconds...", time)
+        Sys.sleep(time)
+      },
+      error = function(err) {
         stop(err)
-      time = 2**i * 0.1
-      log_error("Request failed. Retrying in %s seconds...", time)
-      Sys.sleep(time)
-    }, error = function(err) {
-      stop(err)
-    })
+      }
+    )
   }
 }
 

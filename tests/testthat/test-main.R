@@ -8,7 +8,8 @@ test_that("check sm_build default", {
     mock_arg(mock_build_image), list(
       NULL, "sagemaker_role", ".",
       NULL, "BUILD_GENERAL1_SMALL",
-      NULL, list(), log = TRUE
+      NULL, list(),
+      log = TRUE
     )
   )
 })
@@ -23,7 +24,8 @@ test_that("check sm_build extra docker args", {
     mock_arg(mock_build_image), list(
       NULL, "sagemaker_role", "project",
       NULL, "BUILD_GENERAL1_SMALL",
-      NULL, list(f = "dockerfile", build_args = "foo=bar"), log = TRUE
+      NULL, list(f = "dockerfile", build_args = "foo=bar"),
+      log = TRUE
     )
   )
 })
@@ -45,13 +47,13 @@ test_that("check sm_build invalid repository", {
 test_that("check construct_vpc_config", {
   actual <- construct_vpc_config(
     vpc_id = "foo",
-    subnet_ids = list("subnet-0d984f080338960bb","subnet-0ac3e96808c8092f2"),
+    subnet_ids = list("subnet-0d984f080338960bb", "subnet-0ac3e96808c8092f2"),
     security_group_ids = list("sg-0d31b4042f2902cd0")
   )
   expect_equal(
     actual, list(
       vpcId = "foo",
-      subnets = list("subnet-0d984f080338960bb","subnet-0ac3e96808c8092f2"),
+      subnets = list("subnet-0d984f080338960bb", "subnet-0ac3e96808c8092f2"),
       securityGroupIds = list("sg-0d31b4042f2902cd0")
     )
   )
@@ -61,7 +63,7 @@ test_that("check construct_vpc_config", {
   expect_error(
     smdocker:::construct_vpc_config(
       vpc_id = "foo",
-      subnet_ids = list("subnet-0d984f080338960bb","subnet-0ac3e96808c8092f2")
+      subnet_ids = list("subnet-0d984f080338960bb", "subnet-0ac3e96808c8092f2")
     ),
     regexp = "Invalid input of the VPC configuration."
   )
