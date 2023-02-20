@@ -1,5 +1,6 @@
 #' @include code_build.R
 #' @include logs.R
+#' @include utils.R
 
 #' @importFrom paws.security.identity sts
 #' @importFrom paws.storage s3
@@ -129,30 +130,6 @@ delete_zip_file <- function(bucket, key) {
     }
   )
 }
-
-extra_docker_args <- function(extra_args) {
-  # format docker parameters
-  names(extra_args) <- ifelse(
-    nchar(extra_args) == 1, paste0("-", names(extra_args)),
-    paste0("--", names(extra_args))
-  )
-  names(extra_args) <- gsub("_", "-", names(extra_args))
-  extra_args <- lapply(
-    extra_args,
-    function(arg) if (is.logical(arg)) tolower(arg) else arg
-  )
-
-  paste(
-    ".",
-    names(extra_args),
-    lapply(
-      names(extra_args),
-      function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))
-    ),
-    collapse = " "
-  )
-}
-
 
 build_image <- function(repository,
                         role,
