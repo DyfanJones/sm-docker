@@ -113,15 +113,20 @@ extra_docker_args <- function(extra_args) {
     function(arg) if (is.logical(arg)) tolower(arg) else arg
   )
 
-  paste(
-    ".",
-    paste(
-      names(extra_args),
-      lapply(
+  extra_args <- Filter(
+    nzchar,
+    c(
+      ".",
+      paste(
         names(extra_args),
-        function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))
-      ),
-      collapse = " "
+        lapply(
+          names(extra_args),
+          function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))
+        ),
+        collapse = " "
+      )
     )
   )
+
+  return(paste(extra_args, collapse = " "))
 }
