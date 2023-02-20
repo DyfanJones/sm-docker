@@ -1,5 +1,3 @@
-
-
 test_that("check extra_docker_args", {
   extra_args <- list(
     file = "hi",

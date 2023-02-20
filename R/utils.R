@@ -113,7 +113,8 @@ extra_docker_args <- function(extra_args) {
     function(arg) if (is.logical(arg)) tolower(arg) else arg
   )
 
-  paste(".",
+  paste(
+    ".",
     paste(
       names(extra_args),
       lapply(
@@ -124,4 +125,3 @@ extra_docker_args <- function(extra_args) {
     )
   )
 }
-
