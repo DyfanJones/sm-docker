@@ -119,7 +119,7 @@ codebuild_create_project <- function(metadata) {
     args[["vpcConfig"]] <- metadata$vpc_config
   }
 
-  log_params("code build create project", args)
+  log_params("Create Codebuild project", args)
   do.call(client$create_project, args)
   return(invisible(NULL))
 }

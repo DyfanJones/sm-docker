@@ -1,5 +1,6 @@
 #' @include code_build.R
 #' @include logs.R
+#' @include utils.R
 
 #' @importFrom paws.security.identity sts
 #' @importFrom paws.storage s3
@@ -63,6 +64,7 @@ upload_zip_file <- function(repo_name,
     Key = key,
     Body = tmp
   )
+  log_debug("Uploaded Codebuild project zip file to: s3://%s/", bucket, key)
   return(list(Bucket = bucket, Key = key))
 }
 
@@ -126,17 +128,6 @@ delete_zip_file <- function(bucket, key) {
       log_error(err$message)
       log_error("Failed to delete: s3://%s/%s", bucket, key)
     }
-  )
-}
-
-extra_docker_args <- function(extra_args) {
-  paste(
-    names(extra_args),
-    lapply(
-      names(extra_args),
-      function(n) paste(extra_args[[n]], collapse = sprintf(" %s ", n))
-    ),
-    collapse = " "
   )
 }
 
