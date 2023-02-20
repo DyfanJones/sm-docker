@@ -67,39 +67,26 @@ paws_error_code <- function(error) {
   return(error[["error_response"]][["__type"]] %||% error[["error_response"]][["Code"]])
 }
 
-retry_api_call <- function(expr, retries = 5) {
-  # if number of retries is equal to 0 then retry is skipped
-  if (retries == 0) {
-    resp <- tryCatch(eval.parent(substitute(expr)),
-      error = function(e) e
-    )
+retry_api_call = function(expr, retries = 5){
+  if(retries == 0){
+    return(eval.parent(substitute(expr)))
   }
 
-  for (i in seq_len(retries)) {
-    resp <- tryCatch(eval.parent(substitute(expr)),
-      error = function(e) e
-    )
-
-    if (inherits(resp, "http_500")) {
-      # stop retry if statement is an invalid request
-      if (grepl("InvalidRequestException", resp)) {
-        stop(resp)
-      }
-
-      backoff_len <- runif(n = 1, min = 0, max = (2^i - 1))
-
-      message(resp, "Request failed. Retrying in ", round(backoff_len, 1), " seconds...")
-
-      Sys.sleep(backoff_len)
-    } else {
-      break
-    }
+  for (i in seq_len(retries + 1)){
+    tryCatch({
+      return(eval.parent(substitute(expr)))
+    }, http_500 = function(err) {
+      if(i == (retries + 1))
+        stop(err)
+      time = 2**i * 0.1
+      log_error("Request failed. Retrying in %s seconds...", time)
+      Sys.sleep(time)
+    }, error = function(err) {
+      stop(err)
+    })
   }
-
-  if (inherits(resp, "error")) stop(resp)
-
-  resp
 }
+
 
 extra_docker_args <- function(extra_args) {
   # format docker parameters
