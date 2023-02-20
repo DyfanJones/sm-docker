@@ -54,7 +54,7 @@ test_that("check regional_hostname", {
 
   actual <- sapply(
     region,
-    smdocker:::regional_hostname,
+    regional_hostname,
     service_name = "foo",
     USE.NAMES = F
   )
@@ -67,6 +67,13 @@ test_that("check regional_hostname", {
       "foo.us-isob-bar.sc2s.sgov.gov",
       "foo.bar.amazonaws.com"
     )
+  )
+})
+
+test_that("check sts_regional_endpoint", {
+  actual <- sts_regional_endpoint("dummy")
+  expect_equal(
+    actual, "https://sts.dummy.amazonaws.com"
   )
 })
 
@@ -94,5 +101,52 @@ test_that("check pkg_method not found", {
   expect_error(
     pkg_method("made-up", "foobar"),
     "made-up requires the foobar package, please install it first and try again"
+  )
+})
+
+test_that("check if retry is working correctly", {
+  temp_file <- tempfile()
+  options("smdocker.log_file" = temp_file)
+
+  err_fun = function() stop(
+    structure(list(message = "dummy error"), class = c("http_500", "error", "condition"))
+  )
+
+  expect_error(
+    retry_api_call(
+      err_fun(),
+      2
+    ),
+    "dummy error"
+  )
+
+  result <- readLines(temp_file)
+  expect_true(
+    grepl("^.*ERROR.*: Request failed. Retrying in 0.2 seconds...", result[[1]])
+  )
+  expect_true(
+    grepl("^.*ERROR.*: Request failed. Retrying in 0.4 seconds...", result[[2]])
+  )
+  unlink(temp_file)
+})
+
+test_that("check miscellaneous functions", {
+  expect_equal(
+    str_split("foo:bar:cho", ":"),
+    list(c("foo", "bar", "cho"))
+  )
+  expect_equal(
+    str_split("foo:bar:cho", ":", 1),
+    list(c("foo:bar:cho"))
+  )
+  expect_equal(
+    str_split("foo:bar:cho", ":", 2),
+    list(c("foo", "bar:cho"))
+  )
+  expect_true(
+    islistempty(list())
+  )
+  expect_false(
+    islistempty(list("foo"))
   )
 })
