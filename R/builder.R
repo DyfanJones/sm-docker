@@ -63,6 +63,7 @@ upload_zip_file <- function(repo_name,
     Key = key,
     Body = tmp
   )
+  log_debug("Uploaded Codebuild project zip file to: s3://%s/", bucket, key)
   return(list(Bucket = bucket, Key = key))
 }
 

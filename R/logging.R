@@ -109,7 +109,7 @@ log_msg <- function(lvl, msg) {
 }
 
 log_params <- function(msg, params) {
-  log_debug("%s: %s", msg, toJSON(params, pretty = T, auto_unbox = T))
+  log_debug("%s:\n%s", msg, toJSON(params, pretty = T, auto_unbox = T))
 }
 
 log_color <- function(lvl) {
