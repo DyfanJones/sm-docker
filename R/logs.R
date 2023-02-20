@@ -106,6 +106,11 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       if (islistempty(msg)) break
       writeLines(msg)
 
+      if (dot) {
+        dot <- FALSE
+        if (dot_printed)
+          writeLines("")
+      }
       count <- length(events[[e]])
       if (events[[e]][[count]]$timestamp == positions[[e]]$timestamp) {
         positions[[e]]$timestamp <- events[[e]][[count]]$timestamp
@@ -115,7 +120,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         positions[[e]]$skip <- 1
       }
     }
-
     if (state == LogState$COMPLETE) {
       break
     }
