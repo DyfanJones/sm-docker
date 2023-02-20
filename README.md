@@ -8,6 +8,8 @@
 [![R-CMD-check](https://github.com/DyfanJones/sm-docker/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DyfanJones/sm-docker/actions/workflows/R-CMD-check.yaml)
 [![smdocker status
 badge](https://dyfanjones.r-universe.dev/badges/smdocker)](https://dyfanjones.r-universe.dev)
+[![Codecov test
+coverage](https://codecov.io/gh/DyfanJones/sm-docker/branch/main/graph/badge.svg)](https://app.codecov.io/gh/DyfanJones/sm-docker?branch=main)
 <!-- badges: end -->
 
 Building Docker images in SageMaker Studio using AWS CodeBuild.
@@ -54,7 +56,7 @@ smdocker::sm_build(
 )
 ```
 
-Similar to python’s sm-docker. By default, the CodeBuild project will
+Similar to python’s `sm-docker`. By default, the CodeBuild project will
 not run within a VPC, the image will be pushed to a repository
 sagemakerstudio with the tag latest, and use the Studio App’s execution
 role and the default SageMaker Python SDK S3 bucket.
