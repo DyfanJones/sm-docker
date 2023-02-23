@@ -269,11 +269,10 @@ test_that("check logs_for_build", {
   mockery::stub(logs_for_build, "check_job_call", mock_check_job_call)
 
   expect_no_error(logs_for_build(
-      build_id = "build_id",
-      wait = T,
-      poll = .5
-    )
-  )
+    build_id = "build_id",
+    wait = T,
+    poll = .5
+  ))
 })
 
 test_that("check check_job_call", {
