@@ -30,22 +30,22 @@ log_stream <- function(client,
     )
 
     event_count <- length(response$events)
-    position <- length(events) + 1
     if (event_count) {
       next_token <- response$nextForwardToken
-      events[[position]] <- response$events
+      events <- c(events, response$events)
     }
 
     if (event_count == 0) break
-    if ((event_count + 1) > skip) {
-      events[[position]] <- events[[position]][skip:event_count]
+
+    if (event_count > skip) {
+      events <- events[skip:event_count]
       skip <- 1
     } else {
       skip <- skip - event_count
-      events[[position]] <- list()
+      events <- list()
     }
   }
-  return(unlist(events, recursive = FALSE))
+  return(events)
 }
 
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
