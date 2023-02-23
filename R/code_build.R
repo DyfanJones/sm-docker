@@ -11,7 +11,6 @@ codebuild_project_init <- function(s3_location,
                                    repository = NULL,
                                    compute_type = NULL,
                                    vpc_config = NULL) {
-  self <- smdocker_config()
   metadata <- .get_studio_metadata()
   metadata$s3_location <- s3_location
   metadata$role <- role
@@ -82,11 +81,11 @@ codebuild_project_init <- function(s3_location,
 }
 
 codebuild_create_project <- function(metadata) {
-  self <- smdocker_config()
-  client <- codebuild(self$config)
-  region <- self$config$region
+  config <- smdocker_config()
+  client <- codebuild(config)
+  region <- config$region
 
-  caller_identity <- sts(self$config)$get_caller_identity()
+  caller_identity <- sts(config)$get_caller_identity()
   account <- caller_identity[["Account"]]
   partition <- str_split(caller_identity[["Arn"]], ":")[[1]][[2]]
 
@@ -125,8 +124,8 @@ codebuild_create_project <- function(metadata) {
 }
 
 .create_repo_if_required <- function(metadata) {
-  self <- smdocker_config()
-  client <- ecr(self$config)
+  config <- smdocker_config()
+  client <- ecr(config)
   tryCatch(
     {
       client$create_repository(repositoryName = metadata$repo_name)
@@ -142,17 +141,17 @@ codebuild_create_project <- function(metadata) {
   )
 }
 
-.start_build <- function(metadata) {
-  self <- smdocker_config()
-  client <- codebuild(self$config)
+codebuild_start_build <- function(metadata) {
+  config <- smdocker_config()
+  client <- codebuild(config)
 
   response <- client$start_build(projectName = metadata$project_name)
   return(response[["build"]][["id"]])
 }
 
 .wait_for_build <- function(build_id, poll_seconds = 10) {
-  self <- smdocker_config()
-  client <- codebuild(self$config)
+  config <- smdocker_config()
+  client <- codebuild(config)
   status <- client$batch_get_builds(ids = list(build_id))
   while (status$builds[[1]]$buildStatus == "IN_PROGRESS") {
     writeLines(".", sep = "")
@@ -166,8 +165,8 @@ codebuild_create_project <- function(metadata) {
 }
 
 .get_image_uri <- function(metadata) {
-  self <- smdocker_config()
-  client <- ecr(self$config)
+  config <- smdocker_config()
+  client <- ecr(config)
   tryCatch(
     {
       repository_uri <- client$describe_repositories(
@@ -184,7 +183,7 @@ codebuild_create_project <- function(metadata) {
 
 codebuild_build <- function(metadata, log = TRUE) {
   .create_repo_if_required(metadata)
-  id <- .start_build(metadata)
+  id <- codebuild_start_build(metadata)
   if (log) {
     logs_for_build(id, wait = TRUE)
   } else {

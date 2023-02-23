@@ -10,7 +10,7 @@ upload_zip_file <- function(repo_name,
                             bucket = NULL,
                             extra_args = list(),
                             dir = ".") {
-  self <- smdocker_config()
+  config <- smdocker_config()
   if (is.null(bucket)) {
     bucket <- sagemaker_default_bucket()
   }
@@ -58,7 +58,7 @@ upload_zip_file <- function(repo_name,
     files = list.files(recursive = T)
   )
 
-  client <- paws.storage::s3(self$config)
+  client <- paws.storage::s3(config)
   client$put_object(
     Bucket = bucket,
     Key = key,
@@ -69,9 +69,9 @@ upload_zip_file <- function(repo_name,
 }
 
 sagemaker_default_bucket <- function() {
-  self <- smdocker_config()
-  region <- self$config$region
-  account <- sts(self$config)$get_caller_identity()[["Account"]]
+  config <- smdocker_config()
+  region <- config$region
+  account <- sts(config)$get_caller_identity()[["Account"]]
   default_bucket <- sprintf("sagemaker-%s-%s", region, account)
   .create_s3_bucket_if_it_does_not_exist(
     bucket_name = default_bucket, region = region
@@ -80,8 +80,8 @@ sagemaker_default_bucket <- function() {
 }
 
 .create_s3_bucket_if_it_does_not_exist <- function(bucket_name, region) {
-  self <- smdocker_config()
-  client <- s3(self$config)
+  config <- smdocker_config()
+  client <- s3(config)
   resp <- tryCatch(
     {
       client$head_bucket(Bucket = bucket_name)
@@ -118,8 +118,8 @@ sagemaker_default_bucket <- function() {
 }
 
 delete_zip_file <- function(bucket, key) {
-  self <- smdocker_config()
-  client <- s3(self$config)
+  config <- smdocker_config()
+  client <- s3(config)
   tryCatch(
     {
       client$delete_object(Bucket = bucket, Key = key)

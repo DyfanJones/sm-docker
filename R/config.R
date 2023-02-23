@@ -1,4 +1,4 @@
-sm_docker_cache <- new.env(parent = emptyenv())
+self <- new.env(parent = emptyenv())
 
 #' @include utils.R
 
@@ -38,11 +38,11 @@ smdocker_config <- function(aws_access_key_id = NULL,
                             anonymous = FALSE,
                             refresh = FALSE,
                             ...) {
-  self <- NULL
+  config <- NULL
   if (!refresh) {
-    self <- sm_docker_cache
+    config <- self$config
   }
-  if (length(self) == 0) {
+  if (is.null(config)) {
     stopifnot(
       "`aws_access_key_id` is required to be a character vector" = (
         is.character(aws_access_key_id) || is.null(aws_access_key_id)
@@ -67,7 +67,7 @@ smdocker_config <- function(aws_access_key_id = NULL,
       )
     )
     region_name <- region_name %||% get_region(profile_name)
-    self[["config"]] <- .cred_set(
+    config <- .cred_set(
       aws_access_key_id,
       aws_secret_access_key,
       aws_session_token,
@@ -77,8 +77,9 @@ smdocker_config <- function(aws_access_key_id = NULL,
       anonymous,
       ...
     )
+    assign("config", config, envir = self)
   }
-  return(invisible(self))
+  return(invisible(config))
 }
 
 .cred_set <- function(aws_access_key_id,
