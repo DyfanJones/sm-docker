@@ -106,6 +106,7 @@ log_msg <- function(lvl, msg) {
     file = log_file,
     append = TRUE
   )
+  flush.connection(stdout())
 }
 
 log_params <- function(msg, params) {

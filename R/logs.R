@@ -104,13 +104,13 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       # break if nothing exists in list
       if (islistempty(msg)) break
       writeLines(msg)
-      flush.console()
+      flush.connection(stdout())
 
       if (dot) {
         dot <- FALSE
         if (dot_printed) {
           writeLines("")
-          flush.console()
+          flush.connection(stdout())
         }
       }
       count <- length(events[[e]])
@@ -128,7 +128,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     Sys.sleep(poll)
     if (dot) {
       writeLines(".", sep = "")
-      flush.console()
+      flush.connection(stdout())
       dot_printed <- TRUE
     }
     if (state == LogState$JOB_COMPLETE) {
@@ -144,7 +144,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       status <- description$buildStatus
       if (status != "IN_PROGRESS") {
         writeLines("")
-        flush.console()
+        flush.connection(stdout())
         state <- LogState$JOB_COMPLETE
       }
     }
@@ -152,7 +152,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   if (wait) {
     if (dot) {
       writeLines("")
-      flush.console()
+      flush.connection(stdout())
     }
   }
 }
