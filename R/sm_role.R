@@ -46,8 +46,8 @@ sagemaker_get_execution_role <- function() {
 ################################################################################
 
 sagemaker_get_caller_identity_arn <- function() {
-  self <- smdocker_config()
-  client <- sagemaker(self$config)
+  config <- smdocker_config()
+  client <- sagemaker(config)
 
   if (file.exists(NOTEBOOK_METADATA_FILE)) {
     metadata <- read_json(NOTEBOOK_METADATA_FILE)
@@ -84,9 +84,9 @@ sagemaker_get_caller_identity_arn <- function() {
   }
 
   assumed_role <- sts(
-    modifyList(self$config, list(
-      region = self$config$region,
-      endpoint = sts_regional_endpoint(self$config$region)
+    modifyList(config, list(
+      region = config$region,
+      endpoint = sts_regional_endpoint(config$region)
     ))
   )$get_caller_identity()[["Arn"]]
 
@@ -96,7 +96,7 @@ sagemaker_get_caller_identity_arn <- function() {
   role_name <- substr(role, gregexpr("/", role)[[1]][1] + 1, nchar(role))
   tryCatch(
     {
-      role <- iam(self$config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
+      role <- iam(config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
     },
     error = function(e) {
       log_warn(
