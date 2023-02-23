@@ -5,7 +5,7 @@
 # Error messages only shown
 # Levels: 4 = DEBUG, 3 = INFO/MSG, 2 = WARNING, 1 = ERROR
 
-#' @importFrom utils modifyList
+#' @importFrom utils modifyList flush.console
 #' @importFrom jsonlite toJSON
 
 #' @title smdocker logging system
@@ -106,6 +106,7 @@ log_msg <- function(lvl, msg) {
     file = log_file,
     append = TRUE
   )
+  flush.console()
 }
 
 log_params <- function(msg, params) {

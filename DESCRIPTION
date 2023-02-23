@@ -27,8 +27,8 @@ Suggests:
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Collate: 
-    'logs.R'
     'utils.R'
+    'logs.R'
     'code_build.R'
     'builder.R'
     'config.R'
