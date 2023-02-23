@@ -64,7 +64,7 @@ smdocker_config_log <- function(level = 3L,
 
 # default log settings
 smdocker_logging_opt <- list(
-  smdocker.log_level = 2L,
+  smdocker.log_level = 3L,
   smdocker.log_file = "",
   smdocker.log_timestamp_fmt = "%Y-%m-%d %H:%M:%OS3"
 )
