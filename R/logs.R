@@ -30,27 +30,27 @@ log_stream <- function(client,
     )
 
     event_count <- length(response$events)
+    position <- length(events) + 1
     if (event_count) {
       next_token <- response$nextForwardToken
-      events <- c(events, response$events)
+      events[[position]] <- response$events
     }
 
     if (event_count == 0) break
-
-    if (event_count > skip) {
-      events <- events[skip:event_count]
+    if ((event_count + 1) > skip) {
+      events[[position]] <- events[[position]][skip:event_count]
       skip <- 1
     } else {
       skip <- skip - event_count
-      events <- list()
+      events[[position]] <- list()
     }
   }
-  return(events)
+  return(unlist(events, recursive = FALSE))
 }
 
 logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
-  self <- smdocker_config()
-  codebuild_client <- codebuild(self$config)
+  config <- smdocker_config()
+  codebuild_client <- codebuild(config)
   description <- codebuild_client$batch_get_builds(
     ids = list(build_id)
   )[["builds"]][[1]]
@@ -59,7 +59,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
   log_group <- description[["logs"]]$groupName
   stream_name <- description[["logs"]]$streamName
 
-  client <- cloudwatchlogs(self$config)
+  client <- cloudwatchlogs(config)
   job_already_completed <- if (status == "IN_PROGRESS") FALSE else TRUE
 
   state <- (
@@ -96,7 +96,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
         skip = positions[[s]]$skip
       )
     })
-
     for (e in seq_along(events)) {
       msg <- vapply(
         events[[e]], function(l) trimws(l$message, which = "right"),
@@ -132,7 +131,7 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
     }
     if (state == LogState$JOB_COMPLETE) {
       state <- LogState$COMPLETE
-    } else if ((Sys.time() - last_describe_job_call) >= 30) {
+    } else if (check_job_call(last_describe_job_call)) {
       description <- codebuild_client$batch_get_builds(
         ids = list(build_id)
       )$builds[[1]]
@@ -141,7 +140,6 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       last_describe_job_call <- Sys.time()
 
       status <- description$buildStatus
-
       if (status != "IN_PROGRESS") {
         writeLines("")
         state <- LogState$JOB_COMPLETE
@@ -153,4 +151,8 @@ logs_for_build <- function(build_id, wait = FALSE, poll = 10) {
       writeLines("")
     }
   }
+}
+
+check_job_call <- function(last_describe_job_call) {
+  (Sys.time() - last_describe_job_call) >= 30
 }
