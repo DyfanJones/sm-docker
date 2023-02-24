@@ -1,5 +1,5 @@
 # ensure all log configs are set to defaults
-smdocker_config_log()
+smdocker_log()
 
 test_that("check default logging settings", {
   log_level <- getOption("smdocker.log_level")
@@ -13,7 +13,7 @@ test_that("check default logging settings", {
 
 test_that("check updating smdocker log config", {
   temp_file <- tempfile()
-  smdocker_config_log(level = 3L, file = temp_file, timestamp_fmt = "%Y-%m-%d %H:%M")
+  smdocker_log(level = 3L, file = temp_file, timestamp_fmt = "%Y-%m-%d %H:%M")
 
   log_level <- getOption("smdocker.log_level")
   log_file <- getOption("smdocker.log_file")
@@ -27,15 +27,15 @@ test_that("check updating smdocker log config", {
 
 test_that("check updating smdocker log config with wrong parameter types", {
   expect_error(
-    smdocker_config_log(level = "3"),
+    smdocker_log(level = "3"),
     ".*level.*"
   )
   expect_error(
-    smdocker_config_log(file = 1),
+    smdocker_log(file = 1),
     ".*file.*"
   )
   expect_error(
-    smdocker_config_log(timestamp_fmt = 1),
+    smdocker_log(timestamp_fmt = 1),
     ".*timestamp_fmt.*"
   )
 })
@@ -43,13 +43,13 @@ test_that("check updating smdocker log config with wrong parameter types", {
 test_that("check if file created in none existing directory", {
   temp_dir <- tempfile()
   temp_file <- file.path(temp_dir, "demo.log")
-  smdocker_config_log(file = temp_file)
+  smdocker_log(file = temp_file)
   expect_true(dir.exists(temp_dir))
   unlink(temp_file)
 })
 
 test_that("check reset log config", {
-  smdocker_config_log(
+  smdocker_log(
     level = 4L,
     file = "made-up",
     timestamp_fmt = "%Y-%m-%d %H:%M"
@@ -62,7 +62,7 @@ test_that("check reset log config", {
   expect_equal(log_file, "made-up")
   expect_equal(log_timestamp_fmt, "%Y-%m-%d %H:%M")
 
-  smdocker_config_log()
+  smdocker_log()
   log_level <- getOption("smdocker.log_level")
   log_file <- getOption("smdocker.log_file")
   log_timestamp_fmt <- getOption("smdocker.log_timestamp_fmt")
@@ -73,7 +73,7 @@ test_that("check reset log config", {
 })
 
 test_that("ensure init_log_config doesn't modified already set log config", {
-  smdocker_config_log(
+  smdocker_log(
     level = 3L,
     file = "made-up",
     timestamp_fmt = "%Y-%m-%d %H:%M"
