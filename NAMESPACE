@@ -3,7 +3,7 @@
 export(sagemaker_get_execution_role)
 export(sm_build)
 export(smdocker_config)
-export(smdocker_config_log)
+export(smdocker_log)
 importFrom(jsonlite,read_json)
 importFrom(jsonlite,toJSON)
 importFrom(paws.compute,ecr)

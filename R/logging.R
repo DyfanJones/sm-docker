@@ -10,7 +10,7 @@
 
 #' @title smdocker logging system
 #' @description Ability to configure smdocker logging system, through the use of smdocker
-#' helper function \code{`smdocker_config_log`} or `R:base` \code{options} function.
+#' helper function \code{`smdocker_log`} or `R:base` \code{options} function.
 #' Users are able to change logging levels without calling \code{smdocker.common} by
 #' the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
 #' \itemize{
@@ -32,16 +32,16 @@
 #' @examples
 #' # log to a file
 #' temp_file <- tempfile()
-#' smdocker_config_log(file = temp_file)
+#' smdocker_log(file = temp_file)
 #' unlink(temp_file)
 #'
 #' # change log threshold to INFO
-#' smdocker_config_log(level = 3L)
+#' smdocker_log(level = 3L)
 #'
 #' # reset to default config
-#' smdocker_config_log()
+#' smdocker_log()
 #' @export
-smdocker_config_log <- function(level = 3L,
+smdocker_log <- function(level = 3L,
                                 file = "",
                                 timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
@@ -106,7 +106,7 @@ log_msg <- function(lvl, msg) {
     file = log_file,
     append = TRUE
   )
-  flush.console()
+  on.exit(flush.console())
 }
 
 log_params <- function(msg, params) {
