@@ -53,91 +53,91 @@ test_that("check sagemaker_get_caller_identity_arn describe_user_profile", {
   # mock sagemaker client
   mock_describe_user_profile <- mock2(
     list(
-      'DomainId'= 'string',
-      'UserProfileArn'= 'string',
-      'UserProfileName'= 'string',
-      'HomeEfsFileSystemUid'= 'string',
-      'Status'= 'InService',
-      'LastModifiedTime'= as.POSIXct("2023-01-01"),
-      'CreationTime'= as.POSIXct("2023-01-01"),
-      'FailureReason'= 'string',
-      'SingleSignOnUserIdentifier'= 'string',
-      'SingleSignOnUserValue'= 'string',
-      'UserSettings'= list(
-        'ExecutionRole'= 'foo:bar:role',
-        'SecurityGroups'= list(
-          'string'
+      "DomainId" = "string",
+      "UserProfileArn" = "string",
+      "UserProfileName" = "string",
+      "HomeEfsFileSystemUid" = "string",
+      "Status" = "InService",
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "FailureReason" = "string",
+      "SingleSignOnUserIdentifier" = "string",
+      "SingleSignOnUserValue" = "string",
+      "UserSettings" = list(
+        "ExecutionRole" = "foo:bar:role",
+        "SecurityGroups" = list(
+          "string"
         ),
-        'SharingSettings'= list(
-          'NotebookOutputOption'= 'Allowed',
-          'S3OutputPath'= 'string',
-          'S3KmsKeyId'= 'string'
+        "SharingSettings" = list(
+          "NotebookOutputOption" = "Allowed",
+          "S3OutputPath" = "string",
+          "S3KmsKeyId" = "string"
         ),
-        'JupyterServerAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "JupyterServerAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           ),
-          'CodeRepositories'= list(
+          "CodeRepositories" = list(
             list(
-              'RepositoryUrl'= 'string'
+              "RepositoryUrl" = "string"
             )
           )
         ),
-        'KernelGatewayAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "KernelGatewayAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'CustomImages'= list(
+          "CustomImages" = list(
             list(
-              'ImageName'= 'string',
-              'ImageVersionNumber'= 123,
-              'AppImageConfigName'= 'string'
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
             )
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           )
         ),
-        'TensorBoardAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "TensorBoardAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           )
         ),
-        'RStudioServerProAppSettings'= list(
-          'AccessStatus'= 'ENABLED',
-          'UserGroup'= 'R_STUDIO_ADMIN'
+        "RStudioServerProAppSettings" = list(
+          "AccessStatus" = "ENABLED",
+          "UserGroup" = "R_STUDIO_ADMIN"
         ),
-        'RSessionAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "RSessionAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'CustomImages'= list(
+          "CustomImages" = list(
             list(
-              'ImageName'= 'string',
-              'ImageVersionNumber'= 123,
-              'AppImageConfigName'= 'string'
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
             )
           )
         ),
-        'CanvasAppSettings'= list(
-          'TimeSeriesForecastingSettings'= list(
-            'Status'= 'ENABLED',
-            'AmazonForecastRoleArn'= 'string'
+        "CanvasAppSettings" = list(
+          "TimeSeriesForecastingSettings" = list(
+            "Status" = "ENABLED",
+            "AmazonForecastRoleArn" = "string"
           )
         )
       )
@@ -179,35 +179,35 @@ test_that("check sagemaker_get_caller_identity_arn describe_notebook_instance", 
   # mock sagemaker client
   mock_describe_notebook_instance <- mock2(
     list(
-      'NotebookInstanceArn'= 'string',
-      'NotebookInstanceName'= 'string',
-      'NotebookInstanceStatus'= 'InService',
-      'FailureReason'= 'string',
-      'Url'= 'string',
-      'InstanceType'= 'ml.t2.medium',
-      'SubnetId'= 'string',
-      'SecurityGroups'= list(
-        'string'
+      "NotebookInstanceArn" = "string",
+      "NotebookInstanceName" = "string",
+      "NotebookInstanceStatus" = "InService",
+      "FailureReason" = "string",
+      "Url" = "string",
+      "InstanceType" = "ml.t2.medium",
+      "SubnetId" = "string",
+      "SecurityGroups" = list(
+        "string"
       ),
-      'RoleArn'= 'foo:bar:role',
-      'KmsKeyId'= 'string',
-      'NetworkInterfaceId'= 'string',
-      'LastModifiedTime'= as.POSIXct("2023-01-01"),
-      'CreationTime'= as.POSIXct("2023-01-01"),
-      'NotebookInstanceLifecycleConfigName'= 'string',
-      'DirectInternetAccess'= 'Enabled',
-      'VolumeSizeInGB'= 123,
-      'AcceleratorTypes'= list(
-        'ml.eia1.medium'
+      "RoleArn" = "foo:bar:role",
+      "KmsKeyId" = "string",
+      "NetworkInterfaceId" = "string",
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "NotebookInstanceLifecycleConfigName" = "string",
+      "DirectInternetAccess" = "Enabled",
+      "VolumeSizeInGB" = 123,
+      "AcceleratorTypes" = list(
+        "ml.eia1.medium"
       ),
-      'DefaultCodeRepository'= 'string',
-      'AdditionalCodeRepositories'= list(
-        'string'
+      "DefaultCodeRepository" = "string",
+      "AdditionalCodeRepositories" = list(
+        "string"
       ),
-      'RootAccess'= 'Enabled',
-      'PlatformIdentifier'= 'string',
-      'InstanceMetadataServiceConfiguration'= list(
-        'MinimumInstanceMetadataServiceVersion'= 'string'
+      "RootAccess" = "Enabled",
+      "PlatformIdentifier" = "string",
+      "InstanceMetadataServiceConfiguration" = list(
+        "MinimumInstanceMetadataServiceVersion" = "string"
       )
     )
   )
@@ -246,207 +246,207 @@ test_that("check sagemaker_get_caller_identity_arn describe_domain", {
   # mock sagemaker client
   mock_describe_notebook_instance <- mock2(
     list(
-      'NotebookInstanceArn'= 'string',
-      'NotebookInstanceName'= 'string',
-      'NotebookInstanceStatus'= 'InService',
-      'FailureReason'= 'string',
-      'Url'= 'string',
-      'InstanceType'= 'ml.t2.medium',
-      'SubnetId'= 'string',
-      'SecurityGroups'= list(
-        'string'
+      "NotebookInstanceArn" = "string",
+      "NotebookInstanceName" = "string",
+      "NotebookInstanceStatus" = "InService",
+      "FailureReason" = "string",
+      "Url" = "string",
+      "InstanceType" = "ml.t2.medium",
+      "SubnetId" = "string",
+      "SecurityGroups" = list(
+        "string"
       ),
-      'RoleArn'= 'string',
-      'KmsKeyId'= 'string',
-      'NetworkInterfaceId'= 'string',
-      'LastModifiedTime'= as.POSIXct("2023-01-01"),
-      'CreationTime'= as.POSIXct("2023-01-01"),
-      'NotebookInstanceLifecycleConfigName'= 'string',
-      'DirectInternetAccess'= 'Enabled',
-      'VolumeSizeInGB'= 123,
-      'AcceleratorTypes'= list(
-        'ml.eia1.medium'
+      "RoleArn" = "string",
+      "KmsKeyId" = "string",
+      "NetworkInterfaceId" = "string",
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "NotebookInstanceLifecycleConfigName" = "string",
+      "DirectInternetAccess" = "Enabled",
+      "VolumeSizeInGB" = 123,
+      "AcceleratorTypes" = list(
+        "ml.eia1.medium"
       ),
-      'DefaultCodeRepository'= 'string',
-      'AdditionalCodeRepositories'= list(
-        'string'
+      "DefaultCodeRepository" = "string",
+      "AdditionalCodeRepositories" = list(
+        "string"
       ),
-      'RootAccess'= 'Enabled',
-      'PlatformIdentifier'= 'string',
-      'InstanceMetadataServiceConfiguration'= list(
-        'MinimumInstanceMetadataServiceVersion'= 'string'
+      "RootAccess" = "Enabled",
+      "PlatformIdentifier" = "string",
+      "InstanceMetadataServiceConfiguration" = list(
+        "MinimumInstanceMetadataServiceVersion" = "string"
       )
     )
   )
   mock_describe_user_profile <- mock2(
     list(
-      'DomainId'= 'string',
-      'UserProfileArn'= 'string',
-      'UserProfileName'= 'string',
-      'HomeEfsFileSystemUid'= 'string',
-      'Status'= 'InService',
-      'LastModifiedTime'= as.POSIXct("2023-01-01"),
-      'CreationTime'= as.POSIXct("2023-01-01"),
-      'FailureReason'= 'string',
-      'SingleSignOnUserIdentifier'= 'string',
-      'SingleSignOnUserValue'= 'string',
-      'UserSettings'= list()
+      "DomainId" = "string",
+      "UserProfileArn" = "string",
+      "UserProfileName" = "string",
+      "HomeEfsFileSystemUid" = "string",
+      "Status" = "InService",
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "FailureReason" = "string",
+      "SingleSignOnUserIdentifier" = "string",
+      "SingleSignOnUserValue" = "string",
+      "UserSettings" = list()
     )
   )
   mock_describe_domain <- mock2(
     list(
-      'DomainArn'= 'string',
-      'DomainId'= 'string',
-      'DomainName'= 'string',
-      'HomeEfsFileSystemId'= 'string',
-      'SingleSignOnManagedApplicationInstanceId'= 'string',
-      'Status'= 'InService',
-      'CreationTime'= as.POSIXct("2023-01-01"),
-      'LastModifiedTime'= as.POSIXct("2023-01-01"),
-      'FailureReason'= 'string',
-      'AuthMode'= 'SSO',
-      'DefaultUserSettings'= list(
-        'ExecutionRole'= 'foo:bar:role',
-        'SecurityGroups'= list(
-          'string'
+      "DomainArn" = "string",
+      "DomainId" = "string",
+      "DomainName" = "string",
+      "HomeEfsFileSystemId" = "string",
+      "SingleSignOnManagedApplicationInstanceId" = "string",
+      "Status" = "InService",
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "FailureReason" = "string",
+      "AuthMode" = "SSO",
+      "DefaultUserSettings" = list(
+        "ExecutionRole" = "foo:bar:role",
+        "SecurityGroups" = list(
+          "string"
         ),
-        'SharingSettings'= list(
-          'NotebookOutputOption'= 'Allowed',
-          'S3OutputPath'= 'string',
-          'S3KmsKeyId'= 'string'
+        "SharingSettings" = list(
+          "NotebookOutputOption" = "Allowed",
+          "S3OutputPath" = "string",
+          "S3KmsKeyId" = "string"
         ),
-        'JupyterServerAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "JupyterServerAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           ),
-          'CodeRepositories'= list(
+          "CodeRepositories" = list(
             list(
-              'RepositoryUrl'= 'string'
+              "RepositoryUrl" = "string"
             )
           )
         ),
-        'KernelGatewayAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "KernelGatewayAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'CustomImages'= list(
+          "CustomImages" = list(
             list(
-              'ImageName'= 'string',
-              'ImageVersionNumber'= 123,
-              'AppImageConfigName'= 'string'
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
             )
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           )
         ),
-        'TensorBoardAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "TensorBoardAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           )
         ),
-        'RStudioServerProAppSettings'= list(
-          'AccessStatus'= 'ENABLED',
-          'UserGroup'= 'R_STUDIO_ADMIN'
+        "RStudioServerProAppSettings" = list(
+          "AccessStatus" = "ENABLED",
+          "UserGroup" = "R_STUDIO_ADMIN"
         ),
-        'RSessionAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "RSessionAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'CustomImages'= list(
+          "CustomImages" = list(
             list(
-              'ImageName'= 'string',
-              'ImageVersionNumber'= 123,
-              'AppImageConfigName'= 'string'
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
             )
           )
         ),
-        'CanvasAppSettings'= list(
-          'TimeSeriesForecastingSettings'= list(
-            'Status'= 'ENABLED',
-            'AmazonForecastRoleArn'= 'string'
+        "CanvasAppSettings" = list(
+          "TimeSeriesForecastingSettings" = list(
+            "Status" = "ENABLED",
+            "AmazonForecastRoleArn" = "string"
           )
         )
       ),
-      'AppNetworkAccessType'= 'PublicInternetOnly',
-      'HomeEfsFileSystemKmsKeyId'= 'string',
-      'SubnetIds'= list(
-        'string'
+      "AppNetworkAccessType" = "PublicInternetOnly",
+      "HomeEfsFileSystemKmsKeyId" = "string",
+      "SubnetIds" = list(
+        "string"
       ),
-      'Url'= 'string',
-      'VpcId'= 'string',
-      'KmsKeyId'= 'string',
-      'DomainSettings'= list(
-        'SecurityGroupIds'= list(
-          'string'
+      "Url" = "string",
+      "VpcId" = "string",
+      "KmsKeyId" = "string",
+      "DomainSettings" = list(
+        "SecurityGroupIds" = list(
+          "string"
         ),
-        'RStudioServerProDomainSettings'= list(
-          'DomainExecutionRoleArn'= 'string',
-          'RStudioConnectUrl'= 'string',
-          'RStudioPackageManagerUrl'= 'string',
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "RStudioServerProDomainSettings" = list(
+          "DomainExecutionRoleArn" = "string",
+          "RStudioConnectUrl" = "string",
+          "RStudioPackageManagerUrl" = "string",
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           )
         ),
-        'ExecutionRoleIdentityConfig'= 'USER_PROFILE_NAME'
+        "ExecutionRoleIdentityConfig" = "USER_PROFILE_NAME"
       ),
-      'AppSecurityGroupManagement'= 'Service',
-      'SecurityGroupIdForDomainBoundary'= 'string',
-      'DefaultSpaceSettings'= list(
-        'ExecutionRole'= 'string',
-        'SecurityGroups'= list(
-          'string'
+      "AppSecurityGroupManagement" = "Service",
+      "SecurityGroupIdForDomainBoundary" = "string",
+      "DefaultSpaceSettings" = list(
+        "ExecutionRole" = "string",
+        "SecurityGroups" = list(
+          "string"
         ),
-        'JupyterServerAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "JupyterServerAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           ),
-          'CodeRepositories'= list(
+          "CodeRepositories" = list(
             list(
-              'RepositoryUrl'= 'string'
+              "RepositoryUrl" = "string"
             )
           )
         ),
-        'KernelGatewayAppSettings'= list(
-          'DefaultResourceSpec'= list(
-            'SageMakerImageArn'= 'string',
-            'SageMakerImageVersionArn'= 'string',
-            'InstanceType'= 'system',
-            'LifecycleConfigArn'= 'string'
+        "KernelGatewayAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
           ),
-          'CustomImages'= list(
+          "CustomImages" = list(
             list(
-              'ImageName'= 'string',
-              'ImageVersionNumber'= 123,
-              'AppImageConfigName'= 'string'
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
             )
           ),
-          'LifecycleConfigArns'= list(
-            'string'
+          "LifecycleConfigArns" = list(
+            "string"
           )
         )
       )
@@ -583,4 +583,3 @@ test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE exe
 
   expect_equal(actual, "arn:aws:iam::123456789:role/dumm-role")
 })
-

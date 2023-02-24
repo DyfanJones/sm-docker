@@ -79,7 +79,8 @@ test_that("check delete_zip_file", {
   expect_equal(
     mock_arg(mock_delete_object), list(
       Bucket = "foo", Key = "bar"
-  ))
+    )
+  )
 })
 
 test_that("check delete_zip_file failure", {
