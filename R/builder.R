@@ -35,7 +35,7 @@ upload_zip_file <- function(repo_name,
   dir <- normalizePath(dir)
 
   file_ls_src <- list.files(dir, recursive = T, all.files = T, full.names = T)
-  file_ls_dest <- gsub(dir, tmp_dir, file_ls_src)
+  file_ls_dest <- gsub(dir, tmp_dir, file_ls_src, fixed = T)
   dir_ls <- list.dirs(dir, recursive = T, full.names = F)
 
   # copy directory to temporary location
