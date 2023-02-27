@@ -2,7 +2,7 @@
 % Please edit documentation in R/config.R
 \name{smdocker_config}
 \alias{smdocker_config}
-\title{Set paws config across smdocker package}
+\title{Set \code{smdocker} \code{config} across \code{smdocker} package}
 \usage{
 smdocker_config(
   aws_access_key_id = NULL,
@@ -28,19 +28,19 @@ smdocker_config(
 \item{profile_name}{(character): The name of a profile to use. If not given,
 then the default profile is used.}
 
-\item{disable_ssl}{(logical): Whether or not to use SSL. By default, SSL is used.}
+\item{disable_ssl}{(logical): Whether or not to use \code{SSL}. By default, \code{SSL} is used.}
 
-\item{anonymous}{(logical): Set up anonymous credentials when connecting to AWS S3.}
+\item{anonymous}{(logical): Set up anonymous credentials when connecting to \code{AWS}.}
 
-\item{refresh}{(logical): Refresh cached smdocker config}
+\item{refresh}{(logical): Refresh cached smdocker \code{config}}
 
 \item{...}{Other parameters within \code{paws} client.}
 }
 \value{
-environment containing smdocker config invisible
+list containing \verb{smdocker config} invisible
 }
 \description{
-Set paws config across smdocker package
+Set \code{smdocker} \code{config} across \code{smdocker} package
 }
 \examples{
 \dontrun{

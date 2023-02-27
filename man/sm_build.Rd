@@ -2,7 +2,7 @@
 % Please edit documentation in R/main.R
 \name{sm_build}
 \alias{sm_build}
-\title{AWS CodeBuild and pushing to Amazon ECR}
+\title{AWS \code{CodeBuild} and pushing to Amazon \code{ECR}}
 \usage{
 sm_build(
   repository = NULL,
@@ -19,28 +19,28 @@ sm_build(
 )
 }
 \arguments{
-\item{repository}{The ECR repository:tag for the image
-(default: sagemaker-studio-${domain_id}:latest)}
+\item{repository}{(character): The \code{ECR} repository:tag for the image
+(default: \verb{sagemaker-studio-$\{domain_id\}:latest})}
 
-\item{compute_type}{The CodeBuild compute type (default: BUILD_GENERAL1_SMALL)}
+\item{compute_type}{(character): The \href{https://aws.amazon.com/codebuild/}{\code{CodeBuild}} compute type (default: \code{BUILD_GENERAL1_SMALL})}
 
-\item{role}{The IAM role name for CodeBuild to use (default: the Studio execution role).}
+\item{role}{(character): The \code{IAM} role name for \code{CodeBuild} to use (default: the Studio execution role).}
 
-\item{dir}{Directory to build}
+\item{dir}{(character): Directory to build}
 
-\item{bucket}{The S3 bucket to use for sending data to CodeBuild (if None,
-use the SageMaker SDK default bucket).}
+\item{bucket}{(character): The S3 bucket to use for sending data to \code{CodeBuild} (if None,
+use the \verb{SageMaker SDK} default bucket).}
 
-\item{vpc_id}{The Id of the VPC that will host the CodeBuild Project
-(such as vpc-05c09f91d48831c8c).}
+\item{vpc_id}{(character): The Id of the \code{VPC} that will host the \code{CodeBuild} Project
+(such as \verb{vpc-05c09f91d48831c8c}).}
 
-\item{subnet_ids}{List of subnet ids for the CodeBuild Project
-(such as subnet-0b31f1863e9d31a67)}
+\item{subnet_ids}{(list): List of \code{subnet} ids for the \code{CodeBuild} Project
+(such as \verb{subnet-0b31f1863e9d31a67})}
 
-\item{security_group_ids}{List of security group ids for
-the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).}
+\item{security_group_ids}{(list): List of security group ids for
+the \code{CodeBuild} Project (such as \verb{sg-0ce4ec0d0414d2ddc}).}
 
-\item{log}{Show the logs of the running CodeBuild build}
+\item{log}{(logical): Show the logs of the running \code{CodeBuild} build}
 
 \item{...}{docker build parameters
 \url{https://docs.docker.com/engine/reference/commandline/build/#options}
@@ -48,5 +48,5 @@ the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).}
 \code{build-arg} becomes \code{build_arg})}
 }
 \description{
-AWS CodeBuild and pushing to Amazon ECR
+AWS \code{CodeBuild} and pushing to Amazon \code{ECR}
 }

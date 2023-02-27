@@ -11,7 +11,7 @@ smdocker_log(
 )
 }
 \arguments{
-\item{level}{integer to determine the level logging threshold.
+\item{level}{(integer): the level logging threshold.
 \itemize{
 \item{4L :} {DEBUG}
 \item{3L :} {INFO}
@@ -19,9 +19,9 @@ smdocker_log(
 \item{1L :} {ERROR}
 }}
 
-\item{file}{character path for logs to populate, default output logs to console.}
+\item{file}{(character): path for logs to populate, default output logs to console.}
 
-\item{timestamp_fmt}{character for timestamp format, see \code{\link[=format.POSIXct]{format.POSIXct()}}.}
+\item{timestamp_fmt}{(character): timestamp format, see \code{\link[=format.POSIXct]{format.POSIXct()}}.}
 }
 \description{
 Ability to configure smdocker logging system, through the use of smdocker
@@ -29,11 +29,11 @@ helper function \code{`smdocker_log`} or \code{R:base} \code{options} function.
 Users are able to change logging levels without calling \code{smdocker.common} by
 the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
 \itemize{
-\item{smdocker.log_level} {integer: The minimum log level that should be tracked}
-\item{smdocker.log_file} {
-character: path for logs to populate, default output logs to console.
+\item{\code{smdocker.log_level}} {(integer): The minimum log level that should be tracked}
+\item{\code{smdocker.log_file}} {
+(character): path for logs to populate, default output logs to console.
 }
-\item{smdocker.log_timestamp_fmt} {character: see \code{\link[=format.POSIXct]{format.POSIXct()}}}
+\item{\code{smdocker.log_timestamp_fmt}} {(character): see \code{\link[=format.POSIXct]{format.POSIXct()}}}
 }
 }
 \examples{
