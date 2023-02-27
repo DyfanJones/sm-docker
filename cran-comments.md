@@ -8,6 +8,11 @@ Initial cran release
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 2 note
 
 * This is a new release.
+
+Possibly misspelled words in DESCRIPTION:
+  CodeBuild (3:21)
+
+**Author Note:** CodeBuild is an Amazon Web Service, however it has been wrapped in single quotes as part of 'Amazon Web Service CodeBuild' within the DESCRIPTION.
