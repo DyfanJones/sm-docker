@@ -1,21 +1,21 @@
 #' @include builder.R
 #' @include sm_role.R
 
-#' @title AWS CodeBuild and pushing to Amazon ECR
-#' @param repository The ECR repository:tag for the image
-#' (default: sagemaker-studio-${domain_id}:latest)
-#' @param compute_type The CodeBuild compute type (default: BUILD_GENERAL1_SMALL)
-#' @param role The IAM role name for CodeBuild to use (default: the Studio execution role).
-#' @param dir Directory to build
-#' @param bucket The S3 bucket to use for sending data to CodeBuild (if None,
-#' use the SageMaker SDK default bucket).
-#' @param vpc_id The Id of the VPC that will host the CodeBuild Project
-#' (such as vpc-05c09f91d48831c8c).
-#' @param subnet_ids List of subnet ids for the CodeBuild Project
-#' (such as subnet-0b31f1863e9d31a67)
-#' @param security_group_ids List of security group ids for
-#' the CodeBuild Project (such as sg-0ce4ec0d0414d2ddc).
-#' @param log Show the logs of the running CodeBuild build
+#' @title AWS `CodeBuild` and pushing to Amazon `ECR`
+#' @param repository (character): The `ECR` repository:tag for the image
+#' (default: `sagemaker-studio-${domain_id}:latest`)
+#' @param compute_type (character): The [`CodeBuild`](https://aws.amazon.com/codebuild/) compute type (default: `BUILD_GENERAL1_SMALL`)
+#' @param role (character): The `IAM` role name for `CodeBuild` to use (default: the Studio execution role).
+#' @param dir (character): Directory to build
+#' @param bucket (character): The S3 bucket to use for sending data to `CodeBuild` (if None,
+#' use the `SageMaker SDK` default bucket).
+#' @param vpc_id (character): The Id of the `VPC` that will host the `CodeBuild` Project
+#' (such as `vpc-05c09f91d48831c8c`).
+#' @param subnet_ids (list): List of `subnet` ids for the `CodeBuild` Project
+#' (such as `subnet-0b31f1863e9d31a67`)
+#' @param security_group_ids (list): List of security group ids for
+#' the `CodeBuild` Project (such as `sg-0ce4ec0d0414d2ddc`).
+#' @param log (logical): Show the logs of the running `CodeBuild` build
 #' @param ... docker build parameters
 #' <https://docs.docker.com/engine/reference/commandline/build/#options>
 #' (NOTE: use "_" instead of "-" for example: docker optional parameter

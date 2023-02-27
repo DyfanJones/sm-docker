@@ -2,16 +2,16 @@ self <- new.env(parent = emptyenv())
 
 #' @include utils.R
 
-#' @title Set paws config across smdocker package
+#' @title Set `smdocker` `config` across `smdocker` package
 #' @param aws_access_key_id (character): AWS access key ID
 #' @param aws_secret_access_key (character): AWS secret access key
 #' @param aws_session_token (character): AWS temporary session token
 #' @param region_name (character): Default region when creating new connections
 #' @param profile_name (character): The name of a profile to use. If not given,
 #'              then the default profile is used.
-#' @param disable_ssl (logical): Whether or not to use SSL. By default, SSL is used.
-#' @param anonymous (logical): Set up anonymous credentials when connecting to AWS S3.
-#' @param refresh (logical): Refresh cached smdocker config
+#' @param disable_ssl (logical): Whether or not to use `SSL`. By default, `SSL` is used.
+#' @param anonymous (logical): Set up anonymous credentials when connecting to `AWS`.
+#' @param refresh (logical): Refresh cached smdocker `config`
 #' @param ... Other parameters within \code{paws} client.
 #' @examples
 #' \dontrun{
@@ -27,7 +27,7 @@ self <- new.env(parent = emptyenv())
 #'   refresh = TRUE
 #' )
 #' }
-#' @return environment containing smdocker config invisible
+#' @return list containing `smdocker config` invisible
 #' @export
 smdocker_config <- function(aws_access_key_id = NULL,
                             aws_secret_access_key = NULL,

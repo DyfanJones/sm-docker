@@ -14,21 +14,21 @@
 #' Users are able to change logging levels without calling \code{smdocker.common} by
 #' the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
 #' \itemize{
-#'    \item{smdocker.log_level} {integer: The minimum log level that should be tracked}
-#'    \item{smdocker.log_file} {
-#'        character: path for logs to populate, default output logs to console.
+#'    \item{`smdocker.log_level`} {(integer): The minimum log level that should be tracked}
+#'    \item{`smdocker.log_file`} {
+#'        (character): path for logs to populate, default output logs to console.
 #'    }
-#'    \item{smdocker.log_timestamp_fmt} {character: see [format.POSIXct()]}
+#'    \item{`smdocker.log_timestamp_fmt`} {(character): see [format.POSIXct()]}
 #' }
-#' @param level integer to determine the level logging threshold.
+#' @param level (integer): the level logging threshold.
 #' \itemize{
 #'     \item{4L :} {DEBUG}
 #'     \item{3L :} {INFO}
 #'     \item{2L :} {WARNING}
 #'     \item{1L :} {ERROR}
 #' }
-#' @param file character path for logs to populate, default output logs to console.
-#' @param timestamp_fmt character for timestamp format, see [format.POSIXct()].
+#' @param file (character): path for logs to populate, default output logs to console.
+#' @param timestamp_fmt (character): timestamp format, see [format.POSIXct()].
 #' @examples
 #' # log to a file
 #' temp_file <- tempfile()

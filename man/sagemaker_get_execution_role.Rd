@@ -2,13 +2,13 @@
 % Please edit documentation in R/sm_role.R
 \name{sagemaker_get_execution_role}
 \alias{sagemaker_get_execution_role}
-\title{Return the role ARN whose credentials are used to call the API.}
+\title{Return the role \code{ARN} whose credentials are used to call the API.}
 \usage{
 sagemaker_get_execution_role()
 }
 \value{
-(str): The role ARN
+(character): The role \code{ARN}
 }
 \description{
-Return the role ARN whose credentials are used to call the API.
+Return the role \code{ARN} whose credentials are used to call the API.
 }

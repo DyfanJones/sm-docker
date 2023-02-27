@@ -21,8 +21,8 @@ get_role <- function(role = NULL) {
 # See the NOTICE file at the top of this package for attribution.
 ################################################################################
 
-#' @title Return the role ARN whose credentials are used to call the API.
-#' @return (str): The role ARN
+#' @title Return the role `ARN` whose credentials are used to call the API.
+#' @return (character): The role `ARN`
 #' @export
 sagemaker_get_execution_role <- function() {
   arn <- sagemaker_get_caller_identity_arn()
