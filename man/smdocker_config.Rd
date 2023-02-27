@@ -43,7 +43,6 @@ list containing \verb{paws config} invisible
 Set \code{paws} \code{config} across \code{smdocker} package
 }
 \examples{
-\dontrun{
 # Require AWS S3 credentials
 
 # Set up connection using profile
@@ -55,5 +54,4 @@ smdocker_config(
   region_name = "us-east-1",
   refresh = TRUE
 )
-}
 }

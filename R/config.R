@@ -14,7 +14,6 @@ self <- new.env(parent = emptyenv())
 #' @param refresh (logical): Refresh cached smdocker `config`
 #' @param ... Other parameters within \code{paws} client.
 #' @examples
-#' \dontrun{
 #' # Require AWS S3 credentials
 #'
 #' # Set up connection using profile
@@ -26,7 +25,6 @@ self <- new.env(parent = emptyenv())
 #'   region_name = "us-east-1",
 #'   refresh = TRUE
 #' )
-#' }
 #' @return list containing `paws config` invisible
 #' @export
 smdocker_config <- function(aws_access_key_id = NULL,
