@@ -20,6 +20,20 @@
 #' <https://docs.docker.com/engine/reference/commandline/build/#options>
 #' (NOTE: use "_" instead of "-" for example: docker optional parameter
 #' \code{build-arg} becomes \code{build_arg})
+#' @examples
+#' \dontrun{
+#' # Execute on current directory.
+#' sm_build()
+#'
+#' # Execute on different directory.
+#' sm_build(dir="my-project")
+#'
+#' # Add extra docker arguments
+#' sm_build(
+#'     file = "/path/to/Dockerfile",
+#'     build_arg = "foo=bar"
+#' )
+#' }
 #' @export
 sm_build <- function(repository = NULL,
                      compute_type = c(

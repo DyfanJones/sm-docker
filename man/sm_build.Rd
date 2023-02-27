@@ -50,3 +50,18 @@ the \code{CodeBuild} Project (such as \verb{sg-0ce4ec0d0414d2ddc}).}
 \description{
 AWS \code{CodeBuild} and pushing to Amazon \code{ECR}
 }
+\examples{
+\dontrun{
+# Execute on current directory.
+sm_build()
+
+# Execute on different directory.
+sm_build(dir="my-project")
+
+# Add extra docker arguments
+sm_build(
+    file = "/path/to/Dockerfile",
+    build_arg = "foo=bar"
+)
+}
+}
