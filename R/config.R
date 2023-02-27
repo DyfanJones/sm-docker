@@ -2,7 +2,7 @@ self <- new.env(parent = emptyenv())
 
 #' @include utils.R
 
-#' @title Set `smdocker` `config` across `smdocker` package
+#' @title Set `paws` `config` across `smdocker` package
 #' @param aws_access_key_id (character): AWS access key ID
 #' @param aws_secret_access_key (character): AWS secret access key
 #' @param aws_session_token (character): AWS temporary session token
@@ -27,7 +27,7 @@ self <- new.env(parent = emptyenv())
 #'   refresh = TRUE
 #' )
 #' }
-#' @return list containing `smdocker config` invisible
+#' @return list containing `paws config` invisible
 #' @export
 smdocker_config <- function(aws_access_key_id = NULL,
                             aws_secret_access_key = NULL,

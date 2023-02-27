@@ -2,7 +2,7 @@
 % Please edit documentation in R/config.R
 \name{smdocker_config}
 \alias{smdocker_config}
-\title{Set \code{smdocker} \code{config} across \code{smdocker} package}
+\title{Set \code{paws} \code{config} across \code{smdocker} package}
 \usage{
 smdocker_config(
   aws_access_key_id = NULL,
@@ -37,10 +37,10 @@ then the default profile is used.}
 \item{...}{Other parameters within \code{paws} client.}
 }
 \value{
-list containing \verb{smdocker config} invisible
+list containing \verb{paws config} invisible
 }
 \description{
-Set \code{smdocker} \code{config} across \code{smdocker} package
+Set \code{paws} \code{config} across \code{smdocker} package
 }
 \examples{
 \dontrun{
