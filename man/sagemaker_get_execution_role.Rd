@@ -7,7 +7,7 @@
 sagemaker_get_execution_role()
 }
 \value{
-(character): The role \code{ARN}
+Character containing the \verb{AWS ARN} role retrieved from \verb{AWS SageMaker}
 }
 \description{
 Return the role \code{ARN} whose credentials are used to call the API.
