@@ -25,7 +25,11 @@ self <- new.env(parent = emptyenv())
 #'   region_name = "us-east-1",
 #'   refresh = TRUE
 #' )
-#' @return list containing `paws config` invisible
+#' @return Invisible list, containing credentials for paws clients.
+#' @seealso \link[paws.compute]{ecr} \link[paws.developer.tools]{codebuild}
+#' \link[paws.machine.learning]{sagemaker} \link[paws.management]{cloudwatchlogs}
+#' \link[paws.security.identity]{iam} \link[paws.security.identity]{sts}
+#' \link[paws.storage]{s3}
 #' @export
 smdocker_config <- function(aws_access_key_id = NULL,
                             aws_secret_access_key = NULL,

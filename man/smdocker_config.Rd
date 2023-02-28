@@ -37,7 +37,7 @@ then the default profile is used.}
 \item{...}{Other parameters within \code{paws} client.}
 }
 \value{
-list containing \verb{paws config} invisible
+Invisible list, containing credentials for paws clients.
 }
 \description{
 Set \code{paws} \code{config} across \code{smdocker} package
@@ -54,4 +54,10 @@ smdocker_config(
   region_name = "us-east-1",
   refresh = TRUE
 )
+}
+\seealso{
+\link[paws.compute]{ecr} \link[paws.developer.tools]{codebuild}
+\link[paws.machine.learning]{sagemaker} \link[paws.management]{cloudwatchlogs}
+\link[paws.security.identity]{iam} \link[paws.security.identity]{sts}
+\link[paws.storage]{s3}
 }
