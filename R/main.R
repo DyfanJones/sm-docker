@@ -26,14 +26,15 @@
 #' sm_build()
 #'
 #' # Execute on different directory.
-#' sm_build(dir="my-project")
+#' sm_build(dir = "my-project")
 #'
 #' # Add extra docker arguments
 #' sm_build(
-#'     file = "/path/to/Dockerfile",
-#'     build_arg = "foo=bar"
+#'   file = "/path/to/Dockerfile",
+#'   build_arg = "foo=bar"
 #' )
 #' }
+#' @return \code{NULL} invisible
 #' @export
 sm_build <- function(repository = NULL,
                      compute_type = c(
