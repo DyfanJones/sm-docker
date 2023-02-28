@@ -2,13 +2,14 @@
 % Please edit documentation in R/sm_role.R
 \name{sagemaker_get_execution_role}
 \alias{sagemaker_get_execution_role}
-\title{Return the role \code{ARN} whose credentials are used to call the API.}
+\title{Return the \verb{AWS ARN} execution role from \verb{AWS SageMaker}}
 \usage{
 sagemaker_get_execution_role()
 }
 \value{
-(character): The role \code{ARN}
+Character containing the \verb{AWS ARN} role retrieved from \verb{AWS SageMaker}
 }
 \description{
-Return the role \code{ARN} whose credentials are used to call the API.
+Return the \href{https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html}{\verb{AWS ARN} execution role}
+from \verb{AWS SageMaker}
 }

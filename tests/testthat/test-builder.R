@@ -11,6 +11,8 @@ test_that("check upload_zip_file project files", {
   mockery::stub(upload_zip_file, "paws.storage::s3", mock_paws_storage_s3)
   mockery::stub(upload_zip_file, "zip::zip", mock_zip)
 
+  orig_path <- getwd()
+
   upload_zip_file(
     repo_name = "dummy",
     bucket = "foo",
@@ -28,6 +30,7 @@ test_that("check upload_zip_file project files", {
     grepl("codebuild-sagemaker-container-[A-Za-z]+\\.zip", s3_actual$Key)
   )
   expect_true(grepl("file.*zip", s3_actual$Body))
+  expect_equal(orig_path, getwd())
 })
 
 test_that("check upload_zip_file check buildspec", {
@@ -45,6 +48,8 @@ test_that("check upload_zip_file check buildspec", {
   mockery::stub(upload_zip_file, "zip::zip", mock_zip)
   mockery::stub(upload_zip_file, "unlink", mock_unlink)
 
+  orig_path <- getwd()
+
   upload_zip_file(
     repo_name = "dummy",
     bucket = "foo",
@@ -58,6 +63,7 @@ test_that("check upload_zip_file check buildspec", {
   )
   buildspec <- readLines(file.path(location[[2]], "buildspec.yml"))
   expect_true(grepl("\\. -f bar --build-args cho=qux", buildspec[[19]]))
+  expect_equal(orig_path, getwd())
   unlink(location, recursive = TRUE, force = TRUE)
 })
 

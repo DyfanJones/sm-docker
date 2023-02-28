@@ -25,12 +25,8 @@ upload_zip_file <- function(repo_name,
   tmp <- tempfile(fileext = ".zip")
 
   origdir <- getwd()
-
-  on.exit({
-    unlink(tmp, recursive = TRUE, force = TRUE)
-    unlink(tmp_dir, recursive = TRUE, force = TRUE)
-    setwd(origdir)
-  })
+  on.exit(setwd(origdir), add = TRUE)
+  on.exit(unlink(c(tmp, tmp_dir), recursive = TRUE, force = TRUE), add = TRUE)
 
   dir <- normalizePath(dir)
 

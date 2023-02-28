@@ -37,13 +37,16 @@ then the default profile is used.}
 \item{...}{Other parameters within \code{paws} client.}
 }
 \value{
-list containing \verb{paws config} invisible
+Invisible list, containing credentials for \code{paws} clients.
 }
 \description{
-Set \code{paws} \code{config} across \code{smdocker} package
+This function sets up \code{paws} client config list for all \code{AWS} calls.
+This function in general shouldn't need to be used, however a user can change
+default settings when working with their \code{AWS} account.
 }
 \examples{
-# Require AWS S3 credentials
+# Default setting
+smdocker_config()
 
 # Set up connection using profile
 smdocker_config(profile_name = "smdocker_example")
@@ -54,4 +57,10 @@ smdocker_config(
   region_name = "us-east-1",
   refresh = TRUE
 )
+}
+\seealso{
+\link[paws.compute]{ecr} \link[paws.developer.tools]{codebuild}
+\link[paws.machine.learning]{sagemaker} \link[paws.management]{cloudwatchlogs}
+\link[paws.security.identity]{iam} \link[paws.security.identity]{sts}
+\link[paws.storage]{s3}
 }

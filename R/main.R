@@ -1,7 +1,11 @@
 #' @include builder.R
 #' @include sm_role.R
 
-#' @title AWS `CodeBuild` and pushing to Amazon `ECR`
+#' @title Use `AWS CodeBuild` to build docker images and push them to Amazon `ECR`
+#' @description This function takes a directory containing a
+#' [dockerfile](https://docs.docker.com/engine/reference/builder/), and builds it on
+#' [`AWS CodeBuild`](https://aws.amazon.com/codebuild/). The resulting image is
+#' then stored in [`AWS ECR`](https://aws.amazon.com/ecr/) for later use.
 #' @param repository (character): The `ECR` repository:tag for the image
 #' (default: `sagemaker-studio-${domain_id}:latest`)
 #' @param compute_type (character): The [`CodeBuild`](https://aws.amazon.com/codebuild/) compute type (default: `BUILD_GENERAL1_SMALL`)
@@ -26,14 +30,15 @@
 #' sm_build()
 #'
 #' # Execute on different directory.
-#' sm_build(dir="my-project")
+#' sm_build(dir = "my-project")
 #'
 #' # Add extra docker arguments
 #' sm_build(
-#'     file = "/path/to/Dockerfile",
-#'     build_arg = "foo=bar"
+#'   file = "/path/to/Dockerfile",
+#'   build_arg = "foo=bar"
 #' )
 #' }
+#' @return \code{NULL} invisible
 #' @export
 sm_build <- function(repository = NULL,
                      compute_type = c(

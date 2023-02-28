@@ -23,11 +23,13 @@ smdocker_log(
 
 \item{timestamp_fmt}{(character): timestamp format, see \code{\link[=format.POSIXct]{format.POSIXct()}}.}
 }
+\value{
+\code{NULL} invisible
+}
 \description{
 Ability to configure smdocker logging system, through the use of smdocker
-helper function \code{`smdocker_log`} or \code{R:base} \code{options} function.
-Users are able to change logging levels without calling \code{smdocker.common} by
-the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
+helper function \code{smdocker_log} or \code{R:base} \code{options} function. \code{options} configurable
+parameters:
 \itemize{
 \item{\code{smdocker.log_level}} {(integer): The minimum log level that should be tracked}
 \item{\code{smdocker.log_file}} {
@@ -37,14 +39,24 @@ the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
 }
 }
 \examples{
+\dontrun{
 # log to a file
 temp_file <- tempfile()
 smdocker_log(file = temp_file)
-unlink(temp_file)
 
 # change log threshold to INFO
 smdocker_log(level = 3L)
 
 # reset to default config
 smdocker_log()
+
+# options() equivalents:
+
+# log to a file
+temp_file <- tempfile()
+options(smdocker.log_file = temp_file)
+
+# change log threshold to INFO
+options(smdocker.log_level = 3L)
+}
 }

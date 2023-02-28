@@ -2,7 +2,7 @@
 % Please edit documentation in R/main.R
 \name{sm_build}
 \alias{sm_build}
-\title{AWS \code{CodeBuild} and pushing to Amazon \code{ECR}}
+\title{Use \verb{AWS CodeBuild} to build docker images and push them to Amazon \code{ECR}}
 \usage{
 sm_build(
   repository = NULL,
@@ -47,8 +47,14 @@ the \code{CodeBuild} Project (such as \verb{sg-0ce4ec0d0414d2ddc}).}
 (NOTE: use "_" instead of "-" for example: docker optional parameter
 \code{build-arg} becomes \code{build_arg})}
 }
+\value{
+\code{NULL} invisible
+}
 \description{
-AWS \code{CodeBuild} and pushing to Amazon \code{ECR}
+This function takes a directory containing a
+\href{https://docs.docker.com/engine/reference/builder/}{dockerfile}, and builds it on
+\href{https://aws.amazon.com/codebuild/}{\verb{AWS CodeBuild}}. The resulting image is
+then stored in \href{https://aws.amazon.com/ecr/}{\verb{AWS ECR}} for later use.
 }
 \examples{
 \dontrun{
@@ -56,12 +62,12 @@ AWS \code{CodeBuild} and pushing to Amazon \code{ECR}
 sm_build()
 
 # Execute on different directory.
-sm_build(dir="my-project")
+sm_build(dir = "my-project")
 
 # Add extra docker arguments
 sm_build(
-    file = "/path/to/Dockerfile",
-    build_arg = "foo=bar"
+  file = "/path/to/Dockerfile",
+  build_arg = "foo=bar"
 )
 }
 }

@@ -10,9 +10,8 @@
 
 #' @title smdocker logging system
 #' @description Ability to configure smdocker logging system, through the use of smdocker
-#' helper function \code{`smdocker_log`} or `R:base` \code{options} function.
-#' Users are able to change logging levels without calling \code{smdocker.common} by
-#' the use of \code{options} e.g. \code{options("smdocker.log_level" = 2L)}.
+#' helper function \code{smdocker_log} or `R:base` \code{options} function. `options` configurable
+#' parameters:
 #' \itemize{
 #'    \item{`smdocker.log_level`} {(integer): The minimum log level that should be tracked}
 #'    \item{`smdocker.log_file`} {
@@ -30,20 +29,31 @@
 #' @param file (character): path for logs to populate, default output logs to console.
 #' @param timestamp_fmt (character): timestamp format, see [format.POSIXct()].
 #' @examples
+#' \dontrun{
 #' # log to a file
 #' temp_file <- tempfile()
 #' smdocker_log(file = temp_file)
-#' unlink(temp_file)
 #'
 #' # change log threshold to INFO
 #' smdocker_log(level = 3L)
 #'
 #' # reset to default config
 #' smdocker_log()
+#'
+#' # options() equivalents:
+#'
+#' # log to a file
+#' temp_file <- tempfile()
+#' options(smdocker.log_file = temp_file)
+#'
+#' # change log threshold to INFO
+#' options(smdocker.log_level = 3L)
+#' }
+#' @return \code{NULL} invisible
 #' @export
 smdocker_log <- function(level = 3L,
-                                file = "",
-                                timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
+                         file = "",
+                         timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
     "`level` must be integer" = is.integer(level),
     "`file` must be character" = is.character(file),
@@ -60,6 +70,7 @@ smdocker_log <- function(level = 3L,
     smdocker.log_timestamp_fmt = timestamp_fmt
   )
   do.call(options, log_config)
+  return(invisible())
 }
 
 # default log settings
