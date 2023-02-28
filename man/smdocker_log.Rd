@@ -23,6 +23,9 @@ smdocker_log(
 
 \item{timestamp_fmt}{(character): timestamp format, see \code{\link[=format.POSIXct]{format.POSIXct()}}.}
 }
+\value{
+\code{NULL} invisible
+}
 \description{
 Ability to configure smdocker logging system, through the use of smdocker
 helper function \code{`smdocker_log`} or \code{R:base} \code{options} function.

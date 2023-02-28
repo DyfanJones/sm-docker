@@ -40,10 +40,11 @@
 #'
 #' # reset to default config
 #' smdocker_log()
+#' @return \code{NULL} invisible
 #' @export
 smdocker_log <- function(level = 3L,
-                                file = "",
-                                timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
+                         file = "",
+                         timestamp_fmt = "%Y-%m-%d %H:%M:%OS3") {
   stopifnot(
     "`level` must be integer" = is.integer(level),
     "`file` must be character" = is.character(file),
@@ -60,6 +61,7 @@ smdocker_log <- function(level = 3L,
     smdocker.log_timestamp_fmt = timestamp_fmt
   )
   do.call(options, log_config)
+  return(invisible())
 }
 
 # default log settings
