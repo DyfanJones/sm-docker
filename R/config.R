@@ -4,8 +4,8 @@ self <- new.env(parent = emptyenv())
 
 #' @title Set `paws` `config` across `smdocker` package
 #' @description This function sets up `paws` client config list for all `AWS` calls.
-#' This function in general shouldn't need to be used, however a user can change
-#' default settings when working with their `AWS` account.
+#' This function only needs to be used when changing default settings when
+#' connecting to `AWS`.
 #' @param aws_access_key_id (character): AWS access key ID
 #' @param aws_secret_access_key (character): AWS secret access key
 #' @param aws_session_token (character): AWS temporary session token
@@ -17,9 +17,6 @@ self <- new.env(parent = emptyenv())
 #' @param refresh (logical): Refresh cached smdocker `config`
 #' @param ... Other parameters within \code{paws} client.
 #' @examples
-#' # Default setting
-#' smdocker_config()
-#'
 #' # Set up connection using profile
 #' smdocker_config(profile_name = "smdocker_example")
 #'

@@ -41,13 +41,10 @@ Invisible list, containing credentials for \code{paws} clients.
 }
 \description{
 This function sets up \code{paws} client config list for all \code{AWS} calls.
-This function in general shouldn't need to be used, however a user can change
-default settings when working with their \code{AWS} account.
+This function only needs to be used when changing default settings when
+connecting to \code{AWS}.
 }
 \examples{
-# Default setting
-smdocker_config()
-
 # Set up connection using profile
 smdocker_config(profile_name = "smdocker_example")
 
