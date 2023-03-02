@@ -1,3 +1,7 @@
+# smdocker 0.1.1.9000
+
+* add github url to description
+
 # smdocker 0.1.1
 
 * Enrich documentation
