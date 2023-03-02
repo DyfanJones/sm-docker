@@ -10,6 +10,8 @@
 badge](https://dyfanjones.r-universe.dev/badges/smdocker)](https://dyfanjones.r-universe.dev)
 [![Codecov test
 coverage](https://codecov.io/gh/DyfanJones/sm-docker/branch/main/graph/badge.svg)](https://app.codecov.io/gh/DyfanJones/sm-docker?branch=main)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/smdocker)](https://CRAN.R-project.org/package=smdocker)
 <!-- badges: end -->
 
 Building Docker images in SageMaker Studio using AWS CodeBuild.
