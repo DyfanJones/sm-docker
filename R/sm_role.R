@@ -56,6 +56,7 @@ sagemaker_get_caller_identity_arn <- function() {
     instance_name <- metadata[["ResourceName"]]
     domain_id <- metadata[["DomainId"]]
     user_profile_name <- metadata[["UserProfileName"]]
+    space_name <- metadata[["SpaceName"]]
 
     tryCatch(
       {
@@ -63,12 +64,19 @@ sagemaker_get_caller_identity_arn <- function() {
           instance_desc <- client$describe_notebook_instance(NotebookInstanceName = instance_name)
           return(instance_desc$RoleArn)
         }
+
+        # In Space app, find execution role from DefaultSpaceSettings on domain level
+        if (!is.null(space_name)) {
+          domain_desc <- client$describe_domain(DomainId=domain_id)
+          return(domain_desc[["DefaultSpaceSettings"]][["ExecutionRole"]])
+        }
+
         user_profile_desc <- client$describe_user_profile(
           DomainId = domain_id, UserProfileName = user_profile_name
         )
 
         # First, try to find role in userSettings
-        if (!is.null(user_profile_desc[["UserSettings"]][["ExecutionRole"]])) {
+        if (!islistempty(user_profile_desc[["UserSettings"]][["ExecutionRole"]])) {
           return(user_profile_desc[["UserSettings"]][["ExecutionRole"]])
         }
 
