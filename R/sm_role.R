@@ -104,9 +104,9 @@ sagemaker_get_caller_identity_arn <- function() {
 
   # Call IAM to get the role's path
   role_name <- substr(role, gregexpr("/", role)[[1]][1] + 1, nchar(role))
-  tryCatch(
+  role <- tryCatch(
     {
-      role <- iam(config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
+      iam(config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
     },
     error = function(e) {
       log_warn(
@@ -130,6 +130,7 @@ sagemaker_get_caller_identity_arn <- function() {
           "\\1iam::\\2:role/service-role/\\3",
           assumed_role
         )
+        return(role)
       }
     }
   )
