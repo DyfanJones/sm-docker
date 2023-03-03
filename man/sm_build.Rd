@@ -48,7 +48,7 @@ the \code{CodeBuild} Project (such as \verb{sg-0ce4ec0d0414d2ddc}).}
 \code{build-arg} becomes \code{build_arg})}
 }
 \value{
-\code{NULL} invisible
+invisible character vector of \verb{AWS ECR} image \code{uri}.
 }
 \description{
 This function takes a directory containing a
