@@ -18,6 +18,13 @@ Building Docker images in SageMaker Studio using AWS CodeBuild.
 
 ## Installation
 
+You can install the released version of smdocker from
+[CRAN](https://cran.r-project.org/) with:
+
+``` r
+install.packages('smdocker')
+```
+
 r-universe installation:
 
 ``` r

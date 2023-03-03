@@ -483,6 +483,138 @@ test_that("check sagemaker_get_caller_identity_arn describe_domain", {
   expect_equal(actual, "foo:bar:role")
 })
 
+test_that("check sagemaker_get_caller_identity_arn space_name", {
+  mock_smdocker_config <- mock2()
+  mock_file_exists <- mock2(TRUE)
+
+  # mock sagemaker client
+  mock_describe_user_profile <- mock2(
+    list(
+      "DomainId" = "string",
+      "UserProfileArn" = "string",
+      "UserProfileName" = "string",
+      "HomeEfsFileSystemUid" = "string",
+      "Status" = "InService",
+      "LastModifiedTime" = as.POSIXct("2023-01-01"),
+      "CreationTime" = as.POSIXct("2023-01-01"),
+      "FailureReason" = "string",
+      "SingleSignOnUserIdentifier" = "string",
+      "SingleSignOnUserValue" = "string",
+      "UserSettings" = list(
+        "ExecutionRole" = "foo:bar:role",
+        "SecurityGroups" = list(
+          "string"
+        ),
+        "SharingSettings" = list(
+          "NotebookOutputOption" = "Allowed",
+          "S3OutputPath" = "string",
+          "S3KmsKeyId" = "string"
+        ),
+        "JupyterServerAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
+          ),
+          "LifecycleConfigArns" = list(
+            "string"
+          ),
+          "CodeRepositories" = list(
+            list(
+              "RepositoryUrl" = "string"
+            )
+          )
+        ),
+        "KernelGatewayAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
+          ),
+          "CustomImages" = list(
+            list(
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
+            )
+          ),
+          "LifecycleConfigArns" = list(
+            "string"
+          )
+        ),
+        "TensorBoardAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
+          )
+        ),
+        "RStudioServerProAppSettings" = list(
+          "AccessStatus" = "ENABLED",
+          "UserGroup" = "R_STUDIO_ADMIN"
+        ),
+        "RSessionAppSettings" = list(
+          "DefaultResourceSpec" = list(
+            "SageMakerImageArn" = "string",
+            "SageMakerImageVersionArn" = "string",
+            "InstanceType" = "system",
+            "LifecycleConfigArn" = "string"
+          ),
+          "CustomImages" = list(
+            list(
+              "ImageName" = "string",
+              "ImageVersionNumber" = 123,
+              "AppImageConfigName" = "string"
+            )
+          )
+        ),
+        "CanvasAppSettings" = list(
+          "TimeSeriesForecastingSettings" = list(
+            "Status" = "ENABLED",
+            "AmazonForecastRoleArn" = "string"
+          )
+        )
+      )
+    )
+  )
+  mock_describe_domain <- mock2(
+    list("DefaultSpaceSettings"=list("ExecutionRole"= "dummy_role"))
+  )
+
+  mock_sagemaker <- mock2(list(
+    describe_user_profile = mock_describe_user_profile,
+    describe_domain = mock_describe_domain
+  ))
+
+  mock_read_json <- mock2(list(
+    ResourceName = "foo",
+    DomainId = "bar",
+    UserProfileName = "cho",
+    SpaceName = "qux"
+  ))
+
+
+  mockery::stub(
+    sagemaker_get_caller_identity_arn, "smdocker_config", mock_smdocker_config
+  )
+  mockery::stub(
+    sagemaker_get_caller_identity_arn, "file.exists", mock_file_exists
+  )
+  mockery::stub(
+    sagemaker_get_caller_identity_arn, "sagemaker", mock_sagemaker
+  )
+  mockery::stub(
+    sagemaker_get_caller_identity_arn, "read_json", mock_read_json
+  )
+
+  actual <- sagemaker_get_caller_identity_arn()
+
+  expect_equal(actual, "dummy_role")
+})
+
 test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE", {
   mock_smdocker_config <- mock2(list(region = "us-east-1"))
   mock_file_exists <- mock2(FALSE)
@@ -533,7 +665,6 @@ test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE", {
   expect_equal(actual, "foobar")
 })
 
-
 test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE execution role", {
   mock_smdocker_config <- mock2(list(region = "us-east-1"))
   mock_file_exists <- mock2(FALSE)
@@ -544,7 +675,7 @@ test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE exe
   # mock sts client
   mock_get_caller_identity <- mock2(
     list(
-      "Arn" = "arn:aws:sts::123456789:assumed-role/dumm-role/AmazonSageMaker-ExecutionRole"
+      "Arn" = "arn:aws:sts::123456789:assumed-role/dummy-role/AmazonSageMaker-ExecutionRole"
     )
   )
   mock_sts <- mock2(list(
@@ -581,5 +712,7 @@ test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE exe
 
   actual <- sagemaker_get_caller_identity_arn()
 
-  expect_equal(actual, "arn:aws:iam::123456789:role/dumm-role")
+  expect_equal(actual, "arn:aws:iam::123456789:role/service-role/dummy-role")
 })
+
+
