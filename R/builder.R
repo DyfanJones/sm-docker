@@ -151,6 +151,6 @@ build_image <- function(repository,
     vpc_config = vpc_config
   )
   codebuild_create_project(metadata)
-  codebuild_build(metadata, log)
-  return(invisible())
+  image_uri <- codebuild_build(metadata, log)
+  return(image_uri)
 }

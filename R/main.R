@@ -38,7 +38,7 @@
 #'   build_arg = "foo=bar"
 #' )
 #' }
-#' @return \code{NULL} invisible
+#' @return invisible character vector of `AWS ECR` image `uri`.
 #' @export
 sm_build <- function(repository = NULL,
                      compute_type = c(
@@ -104,11 +104,12 @@ sm_build <- function(repository = NULL,
     }
   }
 
-  build_image(
+  image_uri <- build_image(
     repository, get_role(role), dir, bucket, compute_type,
     construct_vpc_config(vpc_id, subnet_ids, security_group_ids), extra_args,
     log = log
   )
+  return(invisible(image_uri))
 }
 
 construct_vpc_config <- function(vpc_id = NULL,

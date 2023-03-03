@@ -193,4 +193,5 @@ codebuild_build <- function(metadata, log = TRUE) {
   if (!is.null(image_uri)) {
     log_info("Image URI: %s", image_uri)
   }
+  return(image_uri)
 }
