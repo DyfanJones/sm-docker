@@ -1,4 +1,4 @@
-# smdocker 0.1.1.9000
+# smdocker 0.1.2
 
 * add github url to description
 * check execute role when in space app
