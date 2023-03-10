@@ -1,7 +1,4 @@
-Add cran requirements
-
-* All exported functions contain \value within documentation
-* `on.exit(setwd(origdir), add = TRUE)` is called directly after `origdir <- getwd()` R/builder.R
+This is a small release addressing a couple of issues getting `amazon sagemaker` execution role.
 
 ## Test environments
 
@@ -11,11 +8,5 @@ Add cran requirements
 
 ## R CMD check results
 
-0 errors | 0 warnings | 2 note
+0 errors | 0 warnings | 0 note
 
-* This is a new release.
-
-Possibly misspelled words in DESCRIPTION:
-  CodeBuild (3:21)
-
-**Author Note:** CodeBuild is an Amazon Web Service, however it has been wrapped in single quotes as part of 'Amazon Web Service CodeBuild' within the DESCRIPTION.
