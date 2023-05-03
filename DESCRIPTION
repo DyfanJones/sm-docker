@@ -20,7 +20,8 @@ Imports:
     paws.security.identity,
     zip,
     stats,
-    utils
+    utils,
+    uuid
 Suggests:
     covr,
     crayon,

@@ -36,13 +36,7 @@ codebuild_project_init <- function(s3_location,
       } else {
         project_name_prefix
       })
-    metadata$project_name <- paste0(
-      project_name_prefix,
-      paste(
-        sample(c(letters, LETTERS), size = 16, replace = T),
-        collapse = ""
-      )
-    )
+    metadata$project_name <- paste0(project_name_prefix, uuid::UUIDgenerate())
     if (is.null(metadata$repo_name)) {
       metadata$repo_name <- sprintf(
         "sagemaker-studio-%s",
@@ -53,10 +47,7 @@ codebuild_project_init <- function(s3_location,
   } else {
     metadata$project_name <- paste0(
       "sagemaker-studio-image-build-",
-      paste(
-        sample(c(letters, LETTERS), size = 16, replace = T),
-        collapse = ""
-      )
+      uuid::UUIDgenerate()
     )
     if (is.null(metadata$repo_name)) {
       metadata$repo_name <- "sagemaker-studio"
