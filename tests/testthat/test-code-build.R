@@ -1,7 +1,7 @@
 test_that("check codebuild_project_init default", {
-  set.seed(123)
   mock_get_studio_metadata <- mock2(list(domain_id = "foo", user_profile_name = "bar"))
   mockery::stub(codebuild_project_init, ".get_studio_metadata", mock_get_studio_metadata)
+  mockery::stub(codebuild_project_init, "uuid::UUIDgenerate", "aaaa-bbbb-cccc")
   actual <- codebuild_project_init("mybucket/location", "dummy")
   expect_equal(
     actual, list(
@@ -10,7 +10,7 @@ test_that("check codebuild_project_init default", {
       s3_location = "mybucket/location",
       role = "dummy",
       compute_type = "BUILD_GENERAL1_SMALL",
-      project_name = "sagemaker-studio-foo-bar-EoYncPXQKZnyzAeY",
+      project_name = "sagemaker-studio-foo-bar-aaaa-bbbb-cccc",
       repo_name = "sagemaker-studio-foo",
       tag = "bar"
     )
@@ -18,16 +18,16 @@ test_that("check codebuild_project_init default", {
 })
 
 test_that("check codebuild_project_init default no studio metadata", {
-  set.seed(123)
   mock_get_studio_metadata <- mock2(list())
   mockery::stub(codebuild_project_init, ".get_studio_metadata", mock_get_studio_metadata)
+  mockery::stub(codebuild_project_init, "uuid::UUIDgenerate", "aaaa-bbbb-cccc")
   actual <- codebuild_project_init("mybucket/location", "dummy")
   expect_equal(
     actual, list(
       s3_location = "mybucket/location",
       role = "dummy",
       compute_type = "BUILD_GENERAL1_SMALL",
-      project_name = "sagemaker-studio-image-build-EoYncPXQKZnyzAeY",
+      project_name = "sagemaker-studio-image-build-aaaa-bbbb-cccc",
       repo_name = "sagemaker-studio",
       tag = "latest"
     )
@@ -35,9 +35,9 @@ test_that("check codebuild_project_init default no studio metadata", {
 })
 
 test_that("check codebuild_project_init with repo", {
-  set.seed(123)
   mock_get_studio_metadata <- mock2(list())
   mockery::stub(codebuild_project_init, ".get_studio_metadata", mock_get_studio_metadata)
+  mockery::stub(codebuild_project_init, "uuid::UUIDgenerate", "aaaa-bbbb-cccc")
   actual <- codebuild_project_init("mybucket/location", "dummy", "my-repo:latest")
   expect_equal(
     actual, list(
@@ -46,7 +46,7 @@ test_that("check codebuild_project_init with repo", {
       compute_type = "BUILD_GENERAL1_SMALL",
       repo_name = "my-repo",
       tag = "latest",
-      project_name = "sagemaker-studio-image-build-EoYncPXQKZnyzAeY"
+      project_name = "sagemaker-studio-image-build-aaaa-bbbb-cccc"
     )
   )
 })
@@ -60,6 +60,7 @@ test_that("check codebuild_project_init long project_name_prefix", {
     )
   )
   mockery::stub(codebuild_project_init, ".get_studio_metadata", mock_get_studio_metadata)
+  mockery::stub(codebuild_project_init, "uuid::UUIDgenerate", "aaaa-bbbb-cccc")
   actual <- codebuild_project_init("mybucket/location", "dummy", "my-repo:latest")
   expect_equal(
     actual, list(
@@ -70,7 +71,7 @@ test_that("check codebuild_project_init long project_name_prefix", {
       compute_type = "BUILD_GENERAL1_SMALL",
       repo_name = "my-repo",
       tag = "latest",
-      project_name = "sagemaker-studio-osncjrvketnvyzesyyichzgjisdnqkgulojmgiijwugufybehlmrayyfuoiozptfkhvvgpqvrqbdmevsytvynywchplyncngcwvzouehsjrjlbjvltnqnvchnsoxqwkgowzfngjefpxuwkdlnsygvzigbpmsxtogdahtypxvkpthcdtlvqjtkywhnumbkmnfyhlzdmnu-pwahhjyhruiggzjxvwzkXlUYfposcTGGVkJR"
+      project_name = "sagemaker-studio-osncjrvketnvyzesyyichzgjisdnqkgulojmgiijwugufybehlmrayyfuoiozptfkhvvgpqvrqbdmevsytvynywchplyncngcwvzouehsjrjlbjvltnqnvchnsoxqwkgowzfngjefpxuwkdlnsygvzigbpmsxtogdahtypxvkpthcdtlvqjtkywhnumbkmnfyhlzdmnu-pwahhjyhruiggzjxvwzkaaaa-bbbb-cccc"
     )
   )
 })
