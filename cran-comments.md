@@ -1,4 +1,4 @@
-This is a small release addressing a couple of issues getting `amazon sagemaker` execution role.
+This is a small release addressing issue raised by user.
 
 ## Test environments
 
