@@ -1,3 +1,7 @@
+# smdocker 0.1.3
+
+* fix generating duplicate Code Build project_name (#25, thanks to @juliasilge for the implementation)
+
 # smdocker 0.1.2
 
 * add github url to description
