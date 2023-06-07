@@ -5,14 +5,10 @@
 NOTEBOOK_METADATA_FILE <- "/opt/ml/metadata/resource-metadata.json"
 
 get_role <- function(role = NULL) {
-  if (!is.null(role)) {
-    return(role)
+  if (is.null(role)) {
+    role <- sagemaker_get_execution_role()
   }
-
-  role <- sagemaker_get_execution_role()
-  role_prt <- strsplit(role, ":")[[1]]
-  role <- strsplit(role_prt[length(role_prt)], "/")[[1]]
-  return(paste(role[2:length(role)], collapse = "/"))
+  return(gsub("arn:aws:iam::[0-9]+:role/", "", role, perl = T))
 }
 
 ################################################################################
@@ -104,9 +100,9 @@ sagemaker_get_caller_identity_arn <- function() {
 
   # Call IAM to get the role's path
   role_name <- substr(role, gregexpr("/", role)[[1]][1] + 1, nchar(role))
-  role <- tryCatch(
+  tryCatch(
     {
-      iam(config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
+      role <- iam(config)$get_role(RoleName = role_name)[["Role"]][["Arn"]]
     },
     error = function(e) {
       log_warn(
@@ -125,7 +121,7 @@ sagemaker_get_caller_identity_arn <- function() {
           "IAM read permissions to your role or supply the",
           "Role Arn directly."
         ))
-        role <- gsub(
+        role <<- gsub(
           "^(.+)sts::(\\d+):assumed-role/(.+?)/.*$",
           "\\1iam::\\2:role/service-role/\\3",
           assumed_role

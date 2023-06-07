@@ -715,4 +715,21 @@ test_that("check sagemaker_get_caller_identity_arn no NOTEBOOK_METADATA_FILE exe
   expect_equal(actual, "arn:aws:iam::123456789:role/service-role/dummy-role")
 })
 
-
+test_that("check given execution role is correctly parsed", {
+  expect_equal(
+    get_role("arn:aws:iam::123456789:role/service-role/dummy-role"),
+    "service-role/dummy-role"
+  )
+  expect_equal(
+    get_role("arn:aws:iam::012345678910:role/made.up"),
+    "made.up"
+  )
+  expect_equal(
+    get_role("service-role/dummy-role"),
+    "service-role/dummy-role"
+  )
+  expect_equal(
+    get_role("made.up"),
+    "made.up"
+  )
+})
